@@ -1,0 +1,106 @@
+#!/usr/bin/env ruby
+require 'RedCloth'
+require 'hpricot'
+require 'coderay'
+require 'optparse'
+
+
+def silence_warnings
+  old_verbose, $VERBOSE = $VERBOSE, nil
+  yield
+ensure
+  $VERBOSE = old_verbose
+end
+
+if %w(--version -v).include? ARGV.first
+  puts "doctorup 0.1.1"
+  exit(0)
+end
+
+def wrap_style(content)
+  "<style type='text/css'>" + content + "</style>"
+end
+
+css_style = ''
+CSS_DIR = File.expand_path("~/lib/css/coderay/")
+
+opts = OptionParser.new do |opts|
+  opts.banner = "Usage doctorup [options] [textile_file]"
+  opts.separator "If no file specified, STDIN will be used. If you are typing input, you can send an EOF by pressing ^D (^Z on Windows)"
+  opts.separator ""
+
+
+  opts.on("-s","--style FILE","Include css in output") do |s|
+    if(File.readable?(s)) then
+      css_style << wrap_style(File.read(s))
+    else
+      raise ArgumentError, "The file #{s} doesn't exist or is unreadable"
+    end
+  end
+  
+  opts.on("-n","--name NAME","Use a stylesheet from #{CSS_DIR}\n\t note: you don't need to add the .css") do |n|
+    raise ArgumentError,"Can't read from #{CSS_DIR} maybe it doesn't exist?"  unless (File.directory?(CSS_DIR) && File.readable?(CSS_DIR))
+    d = Dir.new(CSS_DIR)
+    available = Dir.glob("#{d.path}/*.css").map{|e| File.basename(e).gsub(/.css/){''} }
+    if(available.include?(n)) then
+      fss = File.join(d.path,"#{n}.css")
+      css_style << wrap_style( File.read(fss) )
+    else
+      puts "Didn't find a css file in #{CSS_DIR} with name #{n}"
+      puts "Try one of these\n\t#{available.join(', ')}" if available.size > 0
+    end
+  end
+end #optparse
+
+opts.parse! ARGV
+
+
+input = ARGF.read
+first_pass,second_pass, third_pass = '','',''
+#filter through coderay
+  firstsss_pass = input.gsub(/\<code( lang='(.+?)')?\>(.+?)\<\/code\>/m) do
+  # if($1.include?('lang'))
+  "<NOTEXTILE>" +   CodeRay.scan($3, $2).div(:css => :class) + "</NOTEXTILE>"
+  # else
+  #<span>Last Suc Match is ...</span>#{$&}"
+    # end
+end
+
+
+def syntax_up(input)
+  input.gsub!(/\<code( lang='(.+?)')?\>(.+?)\<\/code\>/m) {
+    "<NOTEXTILE>#{$&}</NOTEXTILE>"
+  }
+  doc = Hpricot(input)
+  doc.search('code').each do |code|
+    (code.attributes['lang']) ? lang = code.attributes['lang'] : lang = 'none'
+    
+    if (code.inner_html.include?("\n")) then
+      wo = :div
+      #code.swap( CodeRay.scan(code.inner_html, code.attributes['lang']).div(:css => :class, :tab_width => 3 ) )
+    else
+      wo = :span
+      #code.swap( CodeRay.scan(code.inner_html, code.attributes['lang']).span(:css => :class, :tab_width => 3 ) )
+    end
+    
+    syntaxed = CodeRay.scan(code.inner_html, lang.to_sym).html(:wrap => wo, :css => :class, :tab_width => 3 , :hint => :debug) 
+    code.swap( syntaxed)
+  end
+  #this may seem dumb... because it is
+  #hpricot downcases our notextile tags
+  #doc.search(".CodeRay").wrap "<NOTEXTILE></NOTEXTILE>"
+  
+  #so we have to do this
+  #doc.to_html.gsub(/\<\/*notextile\>/) { $&.upcase }
+  doc.to_html
+end
+
+first_pass = syntax_up(input)
+#filter through redcloth
+second_pass = textilize(first_pass)
+
+puts css_style if css_style.size > 0
+#puts first_pass
+puts second_pass
+
+__END__
