@@ -22,9 +22,6 @@ class Test::Unit::TestCase
     [:key,:keys,:has_key?].each do |method|
       assert_respond_to(object, :method)
     end
-    
-    
-    
   end
   
   def relativly_random_string(chars = 8)

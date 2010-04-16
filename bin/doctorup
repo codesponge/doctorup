@@ -8,23 +8,17 @@ rescue LoadError
 end
 include DoctorUp
 
-
-silence_warnings do
-
-end
-
 if %w(--version -v).include? ARGV.first
   puts "doctorup 0.1.1"
   exit(0)
 end
-
-
 
 css_style = ''
 CSS_DIR = File.expand_path("~/lib/css/coderay/") # => for coderay testing only
 @include_style = false
 @ultraviolet_css_dir = File.join(Dir.pwd,"css")
 
+#TODO Cleanup option parsing
 opts = OptionParser.new do |opts|
   init_ultraviolet_options unless @ultraviolet_options
   

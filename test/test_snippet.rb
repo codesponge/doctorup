@@ -25,7 +25,7 @@ class	 Test_snippet_case < Test::Unit::TestCase
 		end
 	end
 	  
-  context "A snippet with some text" do
+  context "A snippet" do
     setup do
       @snippet = Snippet.new("Hello there *folks*")
     end
@@ -35,7 +35,7 @@ class	 Test_snippet_case < Test::Unit::TestCase
     end
     
     
-    should "at least claim to respond to some methods" do
+    should "respond to these methods " do
       [:syntax_up,:to_html,:to_s,:sytaxify,:options,:settings].each do | method |
         assert_respond_to(@snippet, method)
       end
