@@ -1,0 +1,85 @@
+h1. Installing and getting started with ultraviolet
+
+The ultraviolet gem requires the "textpow":http://textpow.rubyforge.org/ gem which in turn requires the "oniguruma":http://www.geocities.jp/kosako3/oniguruma/ library and gem.  Instalition isn't as easy as for the majority of gems but it isn't too bad.  This article should get you going.
+
+The solutions described on this page were done on OS X 10.5.8 using "rvm":http://rvm.beginrescueend.com/ for rubies.  I assume you are using a newer version of rubygems.  If you are using rvm then you should be all set.  If you still have an old version you should probably "update rubygems":http://docs.rubygems.org/read/chapter/3#page14.
+
+I really like rvm, does handy things like <code>rvm gem install gemname</code> which installs @gemname@ for all versions of ruby that you have installed, or <code>rvm tests</code> to run your test suite against multiple versions of ruby.  The former example doesn't work with ultraviolet however as we need to use a different gem for 1.9 ...more on that later.  Regardless of what ruby version we are using we still need the oniguruma library, so lets get that installed...
+
+h2. Installing oniguruma
+
+Run these commands in your shell.  If you find that there is a newer version you can probably replace the version numbers.
+
+<code lang='shell'>cd ~/Downloads
+curl "http://www.geocities.jp/kosako3/oniguruma/archive/onig-5.9.2.tar.gz" > onig-5.9.2.tar.gz
+tar xzvf onig-5.9.2.tar.gz
+cd onig-5.9.2
+./configure && make && sudo make install
+</code>
+
+The library should be installed! Now we should be able to install ultraviolet.
+
+h2. Installing ultraviolet
+
+h3. For 1.8.6 & 1.8.7
+
+<code lang='shell'>gem install ultraviolet</code> if you are not using rvm you may need to do <code lang='shell'>sudo gem install ultraviolet</code>
+
+h3. for 1.9.1 
+
+<code lang='shell'>gem install spox-ultraviolet</code>if you are not using rvm you may need to do <code lang='shell'>sudo gem install spox-ultraviolet</code>
+
+
+The command line executible 'uv' for 1.9.1 was a bit noisy for me (spits out lots of warnings) but still performs.
+
+h2. Fixing the name error for YAML in theme2xhtmlrender
+
+The @theme2xhtmlrender@ command that comes with ultraviolet didn't work out of the box for me.
+It was failing with a name error for YAML.  Hopefully this will get fixed the next version as the following patch will probably get overwritten if you update the gem.
+
+
+To fix the name error for YAML you can edit the theme2xhtmlrender file in the gems @bin@ directory.
+If you are using multiple rubies (rvm) then you have to do this for each version installed.
+
+The locations for me are...
+(1.8) => @$GEM_HOME/gems/spox-ultraviolet-0.10.4/bin/theme2xhtmlrender@
+(1.9) => @$GEM_HOME/gems/ultraviolet-0.10.2/bin/theme2xhtmlrender@
+
+change the part that looks like this...
+
+<code lang='ruby'>
+begin
+   require 'plist'
+rescue LoadError
+   require 'rubygems'
+   require 'plist'
+end
+</code>
+
+
+to look something like this...
+
+<code lang='ruby'>
+begin
+   require 'plist'
+   require 'yaml'
+rescue LoadError
+   require 'rubygems'
+   require 'plist'
+   require 'yaml'
+end
+</code>
+
+h2. Adding a custom TextMate Theme
+
+If you have edited a TextMate theme or created one from scratch you probably want to add that to the list of available themes in ultraviolet.
+By default (on my system anyway) TextMate stores the themes you edit or create in
+@~/Library/Application\ Support/TextMate/Themes@
+The theme I use the most is named cobaltCS which I based on the preloaded cobalt theme.
+So to add my theme I run the following shell command...
+<code lang='shell'>theme2xhtmlrender ~/Library/Application\ Support/TextMate/Themes/cobaltCS</code>
+(You will need to pick the name of a theme that is in that directory on your system to try this out)
+We can check if the theme is now available
+<code lang='shell'>uv --list themes</code>
+
+If the theme is in that list then it is installed in the gems folder.  If you want to use it in multiple versions of ruby then you have to repeat for each version.
