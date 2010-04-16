@@ -20,7 +20,15 @@ DESCRIPTION
 class Snippet < String
 
   expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify]
-
+  attr_accessor :opts
+  alias_method :options, :opts
+  alias_method :settings, :opts
+  
+  
+  def initialize(*args)
+    @opts = {:parser => :coderay }
+    super
+  end
   #create a marked up version with syntax highlighting
   #and textile parsed returns true on success and nil on
   #failure
