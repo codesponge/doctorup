@@ -1,8 +1,7 @@
 #encodeing: UTF-8
 
 module DoctorUp
-begin
- 
+begin 
   require 'RedCloth'
   require 'hpricot'
   require 'coderay'
@@ -19,9 +18,7 @@ rescue LoadError
 end
 
   @parser = :coderay
-  
-  
-  
+
   #  suppress warnings from block
   #  taken from active_support
   def silence_warnings
@@ -109,7 +106,6 @@ end
     end
       doc.search("pre.doctored").each do |pre|
         pre.inner_html = "<span class='info_bar'>language: #{pre.attributes['lang']}</span>\n" + pre.inner_html
-        
       end
     doc.to_html
   end
