@@ -11,6 +11,13 @@ begin
     gem.homepage = "http://github.com/codesponge/doctorup"
     gem.authors = ["codesponge"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    ['RedCloth','hpricot'].each do |g|
+      gem.add_dependency g
+    end
+
+    #either or both of these gems will be required in some version
+    ['coderay','uv']
+
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
