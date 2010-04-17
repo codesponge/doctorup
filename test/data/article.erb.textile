@@ -20,10 +20,10 @@
 		margin-top:0px;
 		margin-left:-10px;
 		margin-bottom:2px;
-		
+
 		padding:2px 1em;
-		
-		
+
+
 		/*	bottom right*/
 		-moz-border-radius-bottomright:1em;
 		-webkit-border-bottom-right-radius:1em;
@@ -58,7 +58,7 @@ h3. For 1.8.6 & 1.8.7
 
 <code lang='shell'>gem install ultraviolet</code> if you are not using rvm you may need to do <code lang='shell'>sudo gem install ultraviolet</code>
 
-h3. for 1.9.1 
+h3. for 1.9.1
 
 <code lang='shell'>gem install spox-ultraviolet</code>if you are not using rvm you may need to do <code lang='shell'>sudo gem install spox-ultraviolet</code>
 

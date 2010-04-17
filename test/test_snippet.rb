@@ -3,7 +3,7 @@
 #
 #		Created by William Champlin on 2010-04-16.
 #		Copyright (c) 2010 CodeSponge. All rights reserved.
-# 
+#
 #-------------------------------------------------------------------------#
 
 require 'helper'
@@ -16,7 +16,7 @@ class	 Test_snippet_case < Test::Unit::TestCase
 	  setup do
   		@snippet = Snippet.new
   	end
-  
+
   	should "be like a string" do
   		assert_equal(@snippet, @snippet.to_s)
   	end
@@ -26,9 +26,7 @@ class	 Test_snippet_case < Test::Unit::TestCase
         assert_respond_to(@snippet, method)
       end
     end
-    
-    #should_be_hashish( @snippet.options )
-    
+
     should "have options that behave like a hash" do
       assert_hashish @snippet.options
     end
@@ -37,8 +35,7 @@ class	 Test_snippet_case < Test::Unit::TestCase
       setup do
         @snippet = Snippet.new("Hello there *folks*")
       end
-      
-      
+
       should "be like a sting" do
         assert_equal(@snippet, @snippet.to_s)
       end

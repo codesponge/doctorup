@@ -21,12 +21,12 @@ CSS_DIR = File.expand_path("~/lib/css/coderay/") # => for coderay testing only
 #TODO Cleanup option parsing
 opts = OptionParser.new do |opts|
   init_ultraviolet_options unless @ultraviolet_options
-  
-  
+
+
   opts.banner = "Usage doctorup [options] [textile_file]"
   opts.separator "If no file specified, STDIN will be used. If you are typing input, you can send an EOF by pressing ^D (^Z on Windows)"
   opts.separator ""
-  
+
   opts.on("-s","--style FILE","Include FILE wrapped in 'style' tags at begining of output") do |s|
     if(File.readable?(s)) then
       css_style << wrap_style(File.read(s))
@@ -34,11 +34,11 @@ opts = OptionParser.new do |opts|
       raise ArgumentError, "The file #{s} doesn't exist or is unreadable"
     end
   end
-  
+
   opts.on("--include_style","ultraviolet specific.  Places a style section at the beginging of the page. Mainly used for testing and composing (in WebPreview)") do
     @include_style = true
   end
-  
+
   opts.on("--css_dir DIR", "Directory where ultraviolet should look for stylesheets.\n\t defaults to #{@ultraviolet_css_dir}\n\tRelevent only whith --include_style") do |d|
     if(File.directory?(d) && Dir.glob(File.join(d,"*.css")).entries.size > 0) then
       @ultraviolet_css_dir = d
@@ -61,7 +61,7 @@ opts = OptionParser.new do |opts|
       puts "Try one of these\n\t#{available.join(', ')}" if available.size > 0
     end
   end
-  
+
   opts.on("-p","--parser NAME","Use parser NAME. can be either 'coderay' or 'ultraviolet'\n defaults to #{@parser}") do |parser|
     raise ArgumentError, "-p, --p Must be either 'coderay' or 'ultraviolet' " unless [:coderay,:ultraviolet].include? parser.to_sym
     @parser = parser.to_sym
