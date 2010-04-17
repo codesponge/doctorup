@@ -52,7 +52,7 @@ end
     }
 
     doc = Hpricot(input)
-    doc.search('code').each do |code|
+    doc.search('/code').each do |code|
 
       case @parser
       when :coderay
