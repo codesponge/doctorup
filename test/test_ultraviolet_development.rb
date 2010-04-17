@@ -6,15 +6,15 @@ should "run this test!" do
 end
 
 should "load ultraviolet" do
-  @sucess = false
+  @sucsess = false
   begin
     require 'uv'
-    @sucess = true
+    @sucsess = true
   rescue LoadError => e
-    @sucess = false
+    @sucsess = false
   end
-  assert @sucess, "Couldn't seem to load ultraviolet"
-  @sucess = nil
+  assert @sucsess, "Couldn't seem to load ultraviolet"
+  @sucsess = nil
 end
 
 should "still have ultraviolet loaded" do
