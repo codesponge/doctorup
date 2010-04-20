@@ -7,9 +7,9 @@ begin
   require 'coderay'
   require 'optparse'
   require 'uv'
+  require 'snippet'
 rescue LoadError
   require 'rubygems'
-
   require 'RedCloth'
   require 'hpricot'
   require 'coderay'
@@ -27,10 +27,46 @@ end
   ensure
     $VERBOSE = old_verbose
   end
+  
+  
+  #TODO write accessors for options
+  def self.ultra_violet_options(*args)
+    {:default_lang => 'shell-unix-generic',:tabstops => 2,:line_numbers => false, :render_style => "cobaltcs", :headers => false }
+  end
+  
+  def init_ultraviolet_options(*args)
+    @ultraviolet_options = DoctorUp::ultra_violet_options
+  end
 
-  #TODO write accessors for this
-  def init_ultraviolet_options(option_hash = {:default_lang => 'shell-unix-generic',:tabstops => 2,:line_numbers => false, :render_style => "cobaltcs", :headers => false })
-    @ultraviolet_options = option_hash
+  def self.ultra_violet_info_bar_style
+    <<-EOS
+    	pre.doctored{
+    		border:3px solid #788E7D;
+    		padding-left:10px;
+    		padding-top:0px;
+    		padding-bottom:8px;
+    		overflow:auto;
+    	}
+    	pre.doctored span.info_bar{
+    		display:inline-block;
+    /*		color:#FF8E0A;*/
+    		color:#172D33;
+    		position:relative;
+    		top:-1px;
+    		background-color:#788E7D;
+    		font-size:10px;
+    		border:0px solid #788E7D;
+    		border-width:0px 0px 0px 0px;
+    		margin-top:-1px;
+    		margin-left:-10px;
+    		margin-bottom:2px;
+
+    		padding:2px 1em;
+    		/*	bottom right*/
+    		-moz-border-radius-bottomright:1em;
+    		-webkit-border-bottom-right-radius:1em;
+    	}
+    EOS
   end
 
   def wrap_style(content)
@@ -40,12 +76,19 @@ end
   def wrap_style_from_file(file)
     wrap_style File.read(file)
   end
-
+  
+  def parse(input)
+    doc = Hpricot(input)
+    doc.search('/code').each do |code|
+      code.swap((Snippet.new(code.to_html)).to_html)
+    end
+    doc
+  end
+  
   def syntax_up(input)
     #wrap so that our syntaxed html doesn't get textilized
     #--for some reason this can't doesn't work if we try to
     #wrap it with Hpricot later.
-
 
     input.gsub!(/\<code( lang='(.+?)')?\>(.*?)\<\/code\>/m) {
       "<NOTEXTILE>#{$&}</NOTEXTILE>"
@@ -53,7 +96,7 @@ end
 
     doc = Hpricot(input)
     doc.search('/code').each do |code|
-
+      #puts code.class
       case @parser
       when :coderay
         (code.attributes['lang']) ? lang = code.attributes['lang'] : lang = 'none'
@@ -66,7 +109,14 @@ end
 
       when :ultraviolet
         init_ultraviolet_options unless @ultraviolet_options
-        (code.attributes['lang']) ? lang = code.attributes['lang'] : lang = @ultraviolet_options[:default_lang]
+        #(code.attributes['lang']) ? lang = code.attributes['lang'] : lang = @ultraviolet_options[:default_lang]
+        if(defined?(code.attributes) && code.attributes['lang']) then
+          code.attributes['lang']
+        else
+          lang = @ultraviolet_options[:default_lang]
+        end
+        
+        
         if (lang == 'shell') then; lang = 'shell-unix-generic'; end
         lang = @ultraviolet_options[:default_lang] unless Uv.syntaxes.include?(lang)
 
@@ -107,6 +157,8 @@ end
       doc.search("pre.doctored").each do |pre|
         pre.inner_html = "<span class='info_bar'>language: #{pre.attributes['lang']}</span>\n" + pre.inner_html
       end
+      
+    
     doc.to_html
   end
 

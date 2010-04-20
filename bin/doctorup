@@ -78,11 +78,13 @@ end
 input = ARGF.read
 first_pass,second_pass, third_pass = '','',''
 
-first_pass = syntax_up(input)
+#first_pass = syntax_up(input)
+first_pass = parse(input)
 #filter through redcloth
 second_pass = textilize(first_pass)
 
 puts css_style if css_style.size > 0
+puts wrap_style(DoctorUp::ultra_violet_info_bar_style)
 #puts first_pass
 puts second_pass
 

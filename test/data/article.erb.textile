@@ -1,36 +1,9 @@
-<NOTEXTILE>
-<style type="text/css" media="screen">
-	pre.doctored{
-		border:3px solid #788E7D;
-		padding-left:10px;
-		padding-top:0px;
-		padding-bottom:8px;
-	}
-	pre.doctored span{
+<code lang='ruby'>
+	def handy
+		"DoctorUp"
+	end
+</code>
 
-	}
-	pre.doctored span.info_bar{
-		display:inline-block;
-/*		color:#FF8E0A;*/
-		color:#172D33;
-		background-color:#788E7D;
-		font-size:10px;
-		border:1px solid #788E7D;
-		border-width:1px 0px 0px 0px;
-		margin-top:0px;
-		margin-left:-10px;
-		margin-bottom:2px;
-
-		padding:2px 1em;
-
-
-		/*	bottom right*/
-		-moz-border-radius-bottomright:1em;
-		-webkit-border-bottom-right-radius:1em;
-
-	}
-</style>
-</NOTEXTILE>
 h1. Installing and getting started with ultraviolet
 
 The ultraviolet gem requires the "textpow":http://textpow.rubyforge.org/ gem which in turn requires the "oniguruma":http://www.geocities.jp/kosako3/oniguruma/ library and gem.  Instalition isn't as easy as for the majority of gems but it isn't too bad.  This article should get you going.

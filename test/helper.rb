@@ -23,7 +23,7 @@ class Test::Unit::TestCase
     end
     opt_key,opt_value = relativly_random_string,relativly_random_string
     @snippet.options[opt_key] = opt_value
-    assert @snippet.options.has_key? opt_key
+    assert(@snippet.options.has_key? opt_key)
     assert_equal(@snippet.options[opt_key], opt_value)
   end
 

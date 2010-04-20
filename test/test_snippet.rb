@@ -28,7 +28,7 @@ class	 Test_snippet_case < Test::Unit::TestCase
     end
 
     should "have options that behave like a hash" do
-      assert_hashish @snippet.options
+      assert_hashish(@snippet.options)
     end
 
     context "Created with a string" do
@@ -43,3 +43,4 @@ class	 Test_snippet_case < Test::Unit::TestCase
     end # => context "Created with a string"
   end # => context "A snippet"
 end # => class
+
