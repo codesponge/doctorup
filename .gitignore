@@ -21,3 +21,4 @@ pkg
 ## PROJECT::SPECIFIC
 irb.scratch
 irb.session
+develop_logs/

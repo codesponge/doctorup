@@ -9,7 +9,7 @@
 class Snippet < String
   require 'handy'
   include Handy
-# require 'uv'
+
 #--------------------------------------------------------------
 Description=<<-TEXTILE
 
@@ -22,7 +22,13 @@ TEXTILE
 
 #--------------------------------------------------------------
 
+#DEV LOGGER
+require 'logger'
+@@log = Logger.new( File.join("#{File.dirname(File.dirname(__FILE__))}","logs", "#{self.name}.log"))
+@@log.level = Logger::DEBUG
+@@log.debug("Logger Started")
 
+#<=DEV LOGGER
 
 
   expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify]
@@ -42,6 +48,7 @@ TEXTILE
   def syntax_up()
     doc = Hpricot(self.to_s)
     c = doc.search("/code")
+    @@log.debug(c.inspect)
     if (c.first.respond_to?(:attributes) and c.first.attributes['lang'] ) then
 
       if(syntax_languages.include?(c.first.attributes['lang'].to_s)) then
