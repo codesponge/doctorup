@@ -7,12 +7,14 @@
 #--------------------------------------------------------------
 
 class Snippet < String
-
+  require 'handy'
+  include Handy
+# require 'uv'
 #--------------------------------------------------------------
 Description=<<-TEXTILE
 
 A snippet is a string that can spit out syntax hightlighted,
-and textilized versions of it's self in HTML.
+ versions of it's self in HTML.
 
 The strings value is preserved (syntax is seperate from *Self*).
 
