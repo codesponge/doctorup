@@ -100,15 +100,19 @@ require 'logger'
     Uv.syntaxes
   end
 
+  def language_available?(lang)
+    syntax_languages.include?(lang.to_s)
+  end
 
   #return's marked up version with syntax highlighting
   #if syntax_up hasn't been called then it calls it with
   #default values
   def to_html
+    #TODO write checkers based on SHA-1 of self @ SHA-1 of
+    #pre_html_sha
     syntax_up unless @html
     @html
   end
-
   alias_method :sytaxify, :to_html
 
 #--------------------------------------------------------------
