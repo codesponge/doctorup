@@ -7,8 +7,8 @@
 #--------------------------------------------------------------
 
 class Snippet < String
-  require 'handy'
-  include Handy
+  require 'codesponge'
+  include CodeSponge::Handy
 
 #--------------------------------------------------------------
 Description=<<-TEXTILE
@@ -30,14 +30,38 @@ require 'logger'
 
 #<=DEV LOGGER
   expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify]
-  attr_accessor :opts
-  alias_method :options, :opts
-  alias_method :settings, :opts
 
-  def initialize(*args)
+
+  @@options = { :render_style => :mac_classic, :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'} }
+
+  def self.options=(opts={})
+    @@options.merge! opts
+  end
+
+  def self.options
+    @@options
+  end
+
+  def options
+    @options
+  end
+
+  def options=(opts = {})
+    @options.merge! opts
+  end
+
+  alias_method :opts, :options
+  alias_method :settings, :options
+
+
+
+  def initialize(str,opts = {})
 		#FIXME setting opts here is for stub testing only!
-    @opts = {:parser => :ultraviolet, :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'} }
-    super
+    @options = self.class.options.merge opts
+
+    @@log.debug("Class Opts:" + self.class.options.inspect)
+    @@log.debug("Instance: " + options.inspect)
+    super(str)
   end
 
   #create a marked up version with syntax highlighting
@@ -75,8 +99,8 @@ require 'logger'
   #value stored there
   def filter_ultraviolet_language_aliaes(elem)
     raise ArgumentError "expected a Hpricot::Elem but got #{elem.class}" unless elem.class == Hpricot::Elem
-    if( @opts[:ultraviolet_language_aliases].has_key?(elem.attributes['lang']) ) then
-      elem.attributes['lang'] = @opts[:ultraviolet_language_aliases][elem.attributes['lang']]
+    if( options[:ultraviolet_language_aliases].has_key?(elem.attributes['lang']) ) then
+      elem.attributes['lang'] = options[:ultraviolet_language_aliases][elem.attributes['lang']]
     end
     elem
   end
@@ -95,9 +119,9 @@ require 'logger'
 
       syntaxed = Uv.parse(input,"xhtml",
               lang.to_s,
-              opts[:line_numbers],
-              opts[:render_style],
-              opts[:headers] )
+              options[:line_numbers],
+              options[:render_style].to_s,
+              options[:headers] )
     end
   end
 

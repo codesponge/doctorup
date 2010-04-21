@@ -73,6 +73,7 @@ if(@parser == :ultraviolet && @include_style) then
   css_style = wrap_style_from_file(File.join(@ultraviolet_css_dir,"#{@ultraviolet_options[:render_style]}.css"))
 end
 
+Snippet.options = { :render_style => 'cobaltcs' }
 
 
 input = ARGF.read
