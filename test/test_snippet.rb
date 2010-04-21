@@ -22,7 +22,7 @@ class	 Test_snippet_case < Test::Unit::TestCase
   	end
 
   	should "respond to these methods " do
-      [:syntax_up,:to_html,:to_s,:sytaxify,:options,:settings].each do | method |
+      [:syntax_up,:to_html,:to_s,:sytaxify,:options].each do | method |
         assert_respond_to(@snippet, method)
       end
     end
