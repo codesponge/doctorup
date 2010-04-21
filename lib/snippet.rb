@@ -24,13 +24,11 @@ TEXTILE
 
 #DEV LOGGER
 require 'logger'
-@@log = Logger.new( File.join("#{File.dirname(File.dirname(__FILE__))}","logs", "#{self.name}.log"))
+@@log = Logger.new( File.join("#{File.dirname(File.dirname(__FILE__))}","develop_logs", "#{self.name}.log"))
 @@log.level = Logger::DEBUG
-@@log.debug("Logger Started")
+@@log.debug("\n#{'-' * 30}\n Logger Started @ #{Time.now}\n#{'-' * 30}")
 
 #<=DEV LOGGER
-
-
   expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify]
   attr_accessor :opts
   alias_method :options, :opts
@@ -38,49 +36,56 @@ require 'logger'
 
   def initialize(*args)
 		#FIXME setting opts here is for stub testing only!
-    @opts = {:parser => :ultraviolet,  }
+    @opts = {:parser => :ultraviolet, :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'} }
     super
   end
 
   #create a marked up version with syntax highlighting
-  #and textile parsed returns true on success and nil on
-  #failure
   def syntax_up()
     doc = Hpricot(self.to_s)
-    c = doc.search("/code")
-    @@log.debug(c.inspect)
-    if (c.first.respond_to?(:attributes) and c.first.attributes['lang'] ) then
-
-      if(syntax_languages.include?(c.first.attributes['lang'].to_s)) then
-        lang = c.first.attributes['lang']
-      elsif(c.first.attributes['lang'] == 'shell')
-        c.first.attributes['lang'] = "shell-unix-generic"
-        lang = c.first.attributes['lang']
-      else
-        lang = false
-      end
+    d = doc.search("/code")
+    if d.any? then
+      c = d.first
     else
-      lang = false
+      @@log.warn("#{self.name} was asked to syntax_up a string that didn't contain a <code></code> block. @html is now same as self.to_s")
+      @html = self.to_s
+      return @html
     end
-    if(lang) then
-      #TODO wrap and fix for info bar
-      syntaxified = Hpricot(ultravioletize(c.inner_html, lang)).search("/pre")
 
+    c = filter_ultraviolet_language_aliaes(c)
+
+    if( language_available?(c.attributes['lang']) ) then
+      lang = c.attributes['lang']
+      syntaxified = Hpricot(ultravioletize(c.inner_html, lang)).search("/pre")
       syntaxified.add_class('doctored')
       syntaxified.attr('lang'=>lang)
       syntaxified.inner_html =  build_info_bar({:language=>lang}) + syntaxified.inner_html
       @html = "<NOTEXTILE>" + syntaxified.first.to_html + "</NOTEXTILE>"
     else
-      @html = "<NOTEXTILE><pre class='simple'>#{self}</pre></NOTEXTILE>"
+      @html = "<NOTEXTILE><pre class='code_nolang'>#{self}</pre></NOTEXTILE>"
     end
+    @html
   end
+
+
+
+  #Accepts an Hpricot:Elem
+  #filters the elemets attributes['lang'] -- if it matches a key
+  #in @opts[:ultraviolet_language_aliases] then it swaps it with the
+  #value stored there
+  def filter_ultraviolet_language_aliaes(elem)
+    raise ArgumentError "expected a Hpricot::Elem but got #{elem.class}" unless elem.class == Hpricot::Elem
+    if( @opts[:ultraviolet_language_aliases].has_key?(elem.attributes['lang']) ) then
+      elem.attributes['lang'] = @opts[:ultraviolet_language_aliases][elem.attributes['lang']]
+    end
+    elem
+  end
+
 
   def build_info_bar(att_hash = {})
       str = att_hash.map {|k,v| "#{k}: '#{v}'"}.join(' ')
       "<span class='info_bar'>#{str}</span>\n"
   end
-
-
 
 
   def ultravioletize(input,lang)
