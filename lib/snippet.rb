@@ -32,35 +32,15 @@ require 'logger'
   expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify]
 
 
-  @@options = { :render_style => :mac_classic, :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'} }
+  @@options = { :render_style                 => :mac_classic,
+                :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
+                :tab_stop                     => 2 }
 
-  def self.options=(opts={})
-    @@options.merge! opts
-  end
-
-  def self.options
-    @@options
-  end
-
-  def options
-    @options
-  end
-
-  def options=(opts = {})
-    @options.merge! opts
-  end
-
-  alias_method :opts, :options
-  alias_method :settings, :options
-
-
+  include CodeSponge::Options
 
   def initialize(str,opts = {})
 		#FIXME setting opts here is for stub testing only!
     @options = self.class.options.merge opts
-
-    @@log.debug("Class Opts:" + self.class.options.inspect)
-    @@log.debug("Instance: " + options.inspect)
     super(str)
   end
 

@@ -45,6 +45,16 @@ rescue LoadError
   end
 end
 
+#Clean stuff
+namespace :clean do
+  task :develop_logs do
+    puts "Cleaning develop logs"
+    Dir.glob("develop_logs/*.log").each do |f|
+      puts "\tEmptying #{f}."
+      File.open(f,'w') {|f| f << '' }
+    end
+  end
+end
 task :test => :check_dependencies
 
 task :default => :test

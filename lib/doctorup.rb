@@ -17,7 +17,6 @@ rescue LoadError
   require 'uv'
 end
 
-  @parser = :coderay
 
   #  suppress warnings from block
   #  taken from active_support
@@ -27,19 +26,19 @@ end
   ensure
     $VERBOSE = old_verbose
   end
-  
-  
+
+
   #TODO write accessors for options
   def self.ultra_violet_options(*args)
     {:default_lang => 'shell-unix-generic',:tabstops => 2,:line_numbers => false, :render_style => "cobaltcs", :headers => false }
   end
-  
+
   def init_ultraviolet_options(*args)
     @ultraviolet_options = DoctorUp::ultra_violet_options
   end
 
   def self.ultra_violet_info_bar_style
-    <<-EOS
+    <<-CSS
     	pre.doctored{
     		border:3px solid #788E7D;
     		padding-left:10px;
@@ -66,7 +65,7 @@ end
     		-moz-border-radius-bottomright:1em;
     		-webkit-border-bottom-right-radius:1em;
     	}
-    EOS
+    CSS
   end
 
   def wrap_style(content)
@@ -76,7 +75,7 @@ end
   def wrap_style_from_file(file)
     wrap_style File.read(file)
   end
-  
+
   def parse(input)
     doc = Hpricot(input)
     doc.search('/code').each do |code|
