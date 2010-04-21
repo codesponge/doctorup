@@ -6,13 +6,15 @@ require 'codesponge'
 class TestCodespongeOptions < Test::Unit::TestCase
   context "A class that includes CodeSponge::Options" do
     setup do
+
       class ThingThatHasOptions
         @@options = {:color => "blue", :scoper => 'class original'}
         include CodeSponge::Options
         def initialize(value = nil,opts={})
-          @options = @@options.merge( opts )
+          @options = self.class.options.merge opts
         end
       end
+
        @c = ThingThatHasOptions.new()
        #puts @c.class_methods
     end

@@ -18,16 +18,6 @@ rescue LoadError
 end
 
 
-  #  suppress warnings from block
-  #  taken from active_support
-  def silence_warnings
-    old_verbose, $VERBOSE = $VERBOSE, nil
-    yield
-  ensure
-    $VERBOSE = old_verbose
-  end
-
-
   #TODO write accessors for options
   def self.ultra_violet_options(*args)
     {:default_lang => 'shell-unix-generic',:tabstops => 2,:line_numbers => false, :render_style => "cobaltcs", :headers => false }

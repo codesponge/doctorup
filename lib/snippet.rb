@@ -32,6 +32,7 @@ require 'logger'
   expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify] # => DEV REMINDER
 
 
+
   @@options = { :render_style                 => :mac_classic,
                 :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
                 :tab_stop                     => 2 }
@@ -39,7 +40,6 @@ require 'logger'
   include CodeSponge::Options
 
   def initialize(str = '',opts = {})
-		#FIXME setting opts here is for stub testing only!
     @options = self.class.options.merge opts
     super(str)
   end
