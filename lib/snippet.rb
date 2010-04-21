@@ -46,7 +46,7 @@ require 'logger'
 
   #create a marked up version with syntax highlighting
   def syntax_up()
-    doc = Hpricot(self.to_s)
+    doc = Hpricot(self.gsub(/\t/," " * options[:tab_stop] ).to_s )
     d = doc.search("/code")
     if d.any? then
       c = d.first
