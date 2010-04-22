@@ -27,7 +27,7 @@ doctor.options[:ultraviolet_css_dir] = "/Volumes/AlRaid/Server/Homes/billy/lib/c
 
 #TODO Cleanup option parsing
 opts = OptionParser.new do |opts|
-  
+
 
 
   opts.banner = "Usage doctorup [options] [textile_file]"
@@ -53,11 +53,11 @@ opts = OptionParser.new do |opts|
       raise ArgumentError, "the Directory #{d} either can not be found or has no *.css files"
     end
   end
-  
+
   opts.on("-t,","--theme NAME","Use ultraviolet theme THEME.") do |theme|
     doctor.options[:render_style] = theme if Snippet.theme_available?(theme)
   end
-  
+
   opts.on("-n","--name NAME","Use a stylesheet from #{CSS_DIR}\n\t note: you don't need to add the .css") do |n|
     raise ArgumentError,"Can't read from #{CSS_DIR} maybe it doesn't exist?"  unless (File.directory?(CSS_DIR) && File.readable?(CSS_DIR))
     d = Dir.new(CSS_DIR)
@@ -102,7 +102,7 @@ doctemp = <<-HTML
 #{page[:head]}
 
 <style type="text/css" media="screen">
-  #{DoctorUp.ultra_violet_info_bar_style}
+  #{DoctorUp.info_bar_style}
 </style>
 
 </head>

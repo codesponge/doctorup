@@ -24,19 +24,19 @@ class DoctorUp
 
   @@options = { :render_style                 => :cobalt,
                 :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
-                :theme_for_lang               => {'shell-unix-generic' => :mac_classic }, # => must use the actual lang name not an alias                
+#                :theme_for_lang               => {'shell-unix-generic' => :sunburst }, # => must use the actual lang name not an alias
                 :tab_stop                     => 2,
                 :line_numbers                 => false,
                 :themes_css_url               => 'http://ssss.heroku.com/'  #FIXME hard coded option!
               }
 
   include CodeSponge::Options
-  
+
   def initialize(opts={})
     @options = self.class.options.merge opts
   end
 
-  def self.ultra_violet_info_bar_style
+  def self.info_bar_style
     <<-CSS
     	pre.doctored{
     		border:3px solid #788E7D;
@@ -75,9 +75,9 @@ class DoctorUp
     raise ArgumentError, "The File #{file} doesn't exist or is unreadable" unless File.readable?(file)
     wrap_style File.read(file)
   end
-  
+
   def page_style
-    styles = wrap_style(self.class.ultra_violet_info_bar_style)
+    styles = wrap_style(self.class.info_bar_style)
     Snippet.themes_used.each do |t|
       styles << wrap_style_from_file(File.join(options[:ultraviolet_css_dir],"#{t}.css"))
     end
@@ -114,7 +114,7 @@ class DoctorUp
     textiled = textilize(syntaxed)
     page_style + textiled
   end
-  
-  
-  
+
+
+
 end
