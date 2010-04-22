@@ -11,7 +11,7 @@ class Snippet < String
   require 'set'
   include CodeSponge::Handy
 
-  
+
 #--------------------------------------------------------------
 Description=<<-TEXTILE
 
@@ -31,6 +31,7 @@ require 'logger'
 @@log.debug("\n#{'-' * 30}\n Logger Started @ #{Time.now}\n#{'-' * 30}")
 
 #<=DEV LOGGER
+
   expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify] # => DEV REMINDER
 
 
@@ -46,30 +47,31 @@ require 'logger'
     @options = self.class.options.merge opts
     super(str)
   end
-  
+
   def self.syntax_languages
     Uv.syntaxes
   end
-  
+
   def self.syntax_themes
     Uv.themes
   end
-  
+
   def self.theme_available?(theme)
     syntax_themes.include?(theme.to_s)
   end
-  
+
   def self.language_available?(lang)
     syntax_languages.include?(lang.to_s)
   end
-  
+
   def self.reset_themes_used
     @@themes_used = Set.new
   end
+
   def self.themes_used
     @@themes_used
   end
-  
+
   #create a marked up version with syntax highlighting
   def syntax_up()
     doc = Hpricot(self.gsub(/\t/," " * options[:tab_stop] ).to_s )
@@ -87,6 +89,7 @@ require 'logger'
     if( self.class.language_available?(c.attributes['lang']) ) then
       lang = c.attributes['lang']
       process_theme_for_lang(lang)
+      process_inline_theme(c)
       syntaxified = Hpricot(ultravioletize(c.inner_html, lang)).search("/pre")
       @@themes_used << options[:render_style]
       syntaxified.add_class('doctored')
@@ -101,13 +104,21 @@ require 'logger'
 
   def process_theme_for_lang(lang)
     if(options[:theme_for_lang].respond_to?('has_key?')) then
-      @@log.debug("trying for '#{lang}'")
       if(options[:theme_for_lang].has_key?( lang ) and self.class.theme_available?(options[:theme_for_lang][lang]) ) then
         options[:render_style] = options[:theme_for_lang][lang]
       end
     end
   end
 
+  def process_inline_theme(elem)
+    raise ArgumentError "expected a Hpricot::Elem but got #{elem.class}" unless elem.class == Hpricot::Elem
+    @@log.debug("trying for '#{elem.attributes['theme']}'")
+    if(self.class.theme_available?(elem.attributes['theme'])) then
+
+
+      options[:render_style] = elem.attributes['theme']
+    end
+  end
   #Accepts an Hpricot:Elem
   #filters the elemets attributes['lang'] -- if it matches a key
   #in @opts[:ultraviolet_language_aliases] then it swaps it with the
