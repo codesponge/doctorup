@@ -8,8 +8,10 @@
 
 class Snippet < String
   require 'codesponge'
+  require 'set'
   include CodeSponge::Handy
 
+  
 #--------------------------------------------------------------
 Description=<<-TEXTILE
 
@@ -35,7 +37,8 @@ require 'logger'
 
   @@options = { :render_style                 => :mac_classic,
                 :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
-                :tab_stop                     => 2 }
+                :tab_stop                     => 2,
+                :line_numbers                 => false }
 
   include CodeSponge::Options
 
@@ -43,7 +46,30 @@ require 'logger'
     @options = self.class.options.merge opts
     super(str)
   end
-
+  
+  def self.syntax_languages
+    Uv.syntaxes
+  end
+  
+  def self.syntax_themes
+    Uv.themes
+  end
+  
+  def self.theme_available?(theme)
+    syntax_themes.include?(theme.to_s)
+  end
+  
+  def self.language_available?(lang)
+    syntax_languages.include?(lang.to_s)
+  end
+  
+  def self.reset_themes_used
+    @@themes_used = Set.new
+  end
+  def self.themes_used
+    @@themes_used
+  end
+  
   #create a marked up version with syntax highlighting
   def syntax_up()
     doc = Hpricot(self.gsub(/\t/," " * options[:tab_stop] ).to_s )
@@ -58,9 +84,11 @@ require 'logger'
 
     c = filter_ultraviolet_language_aliaes(c)
 
-    if( language_available?(c.attributes['lang']) ) then
+    if( self.class.language_available?(c.attributes['lang']) ) then
       lang = c.attributes['lang']
+      process_theme_for_lang(lang)
       syntaxified = Hpricot(ultravioletize(c.inner_html, lang)).search("/pre")
+      @@themes_used << options[:render_style]
       syntaxified.add_class('doctored')
       syntaxified.attr('lang'=>lang)
       syntaxified.inner_html =  build_info_bar({:language=>lang}) + syntaxified.inner_html
@@ -71,7 +99,14 @@ require 'logger'
     @html
   end
 
-
+  def process_theme_for_lang(lang)
+    if(options[:theme_for_lang].respond_to?('has_key?')) then
+      @@log.debug("trying for '#{lang}'")
+      if(options[:theme_for_lang].has_key?( lang ) and self.class.theme_available?(options[:theme_for_lang][lang]) ) then
+        options[:render_style] = options[:theme_for_lang][lang]
+      end
+    end
+  end
 
   #Accepts an Hpricot:Elem
   #filters the elemets attributes['lang'] -- if it matches a key
@@ -92,26 +127,19 @@ require 'logger'
   end
 
 
-  def ultravioletize(input,lang)
-    opts = DoctorUp::ultra_violet_options
+  def ultravioletize(input,lang,opts={})
+    opts = options.merge(opts)
 
     silence_warnings do
 
       syntaxed = Uv.parse(input,"xhtml",
               lang.to_s,
-              options[:line_numbers],
-              options[:render_style].to_s,
-              options[:headers] )
+              opts[:line_numbers],
+              opts[:render_style].to_s,
+              opts[:headers] )
     end
   end
 
-  def syntax_languages
-    Uv.syntaxes
-  end
-
-  def language_available?(lang)
-    syntax_languages.include?(lang.to_s)
-  end
 
   #return's marked up version with syntax highlighting
   #if syntax_up hasn't been called then it calls it with

@@ -1,6 +1,4 @@
 #encodeing: UTF-8
-
-module DoctorUp
 begin
   require 'RedCloth'
   require 'hpricot'
@@ -8,6 +6,8 @@ begin
   require 'optparse'
   require 'uv'
   require 'snippet'
+  require 'set'
+  require 'codesponge'
 rescue LoadError
   require 'rubygems'
   require 'RedCloth'
@@ -18,13 +18,22 @@ rescue LoadError
 end
 
 
-  #TODO write accessors for options
-  def self.ultra_violet_options(*args)
-    {:default_lang => 'shell-unix-generic',:tabstops => 2,:line_numbers => false, :render_style => "cobaltcs", :headers => false }
-  end
 
-  def init_ultraviolet_options(*args)
-    @ultraviolet_options = DoctorUp::ultra_violet_options
+class DoctorUp
+
+
+  @@options = { :render_style                 => :cobalt,
+                :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
+                :theme_for_lang               => {'shell-unix-generic' => :mac_classic }, # => must use the actual lang name not an alias                
+                :tab_stop                     => 2,
+                :line_numbers                 => false,
+                :themes_css_url               => 'http://ssss.heroku.com/'  #FIXME hard coded option!
+              }
+
+  include CodeSponge::Options
+  
+  def initialize(opts={})
+    @options = self.class.options.merge opts
   end
 
   def self.ultra_violet_info_bar_style
@@ -63,15 +72,49 @@ end
   end
 
   def wrap_style_from_file(file)
+    raise ArgumentError, "The File #{file} doesn't exist or is unreadable" unless File.readable?(file)
     wrap_style File.read(file)
   end
-
-  def parse(input)
-    doc = Hpricot(input)
-    doc.search('/code').each do |code|
-      code.swap((Snippet.new(code.to_html)).to_html)
+  
+  def page_style
+    styles = wrap_style(self.class.ultra_violet_info_bar_style)
+    Snippet.themes_used.each do |t|
+      styles << wrap_style_from_file(File.join(options[:ultraviolet_css_dir],"#{t}.css"))
     end
-    doc
+    "<NOTEXTILE>#{styles}</NOTEXTILE>"
   end
 
+  def linked_style_array
+    links = []
+    Snippet.themes_used.each do |l|
+      url = File.join( "#{options[:themes_css_url]}" ,"#{l}.css")
+      links << "<link rel='stylesheet' href='#{url}' type='text/css' media='screen' charset='utf-8'>"
+    end
+    links
+  end
+
+  def parse_code_blocks(input,opts={})
+    Snippet.reset_themes_used
+    doc = Hpricot(input)
+    doc.search('/code').each do |code|
+      code.swap((Snippet.new(code.to_html, opts )).to_html)
+    end
+    doc.to_html
+  end
+
+  def process(input,opts = {})
+    @page = {}
+    @page[:body] = textilize(parse_code_blocks(input,opts))
+    @page[:head] = linked_style_array.join("\n")
+    @page
+  end
+
+  def rx(input,opts={})
+    syntaxed = parse_code_blocks(input,opts)
+    textiled = textilize(syntaxed)
+    page_style + textiled
+  end
+  
+  
+  
 end

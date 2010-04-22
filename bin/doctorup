@@ -6,21 +6,28 @@ rescue LoadError
   $: << "/Volumes/AlRaid/Server/Homes/billy/lib/ruby/gems/doctorup/lib"
   require 'doctorup'
 end
-include DoctorUp
+doctor = DoctorUp.new
+
 
 if %w(--version -v).include? ARGV.first
   puts "doctorup 0.1.1"
   exit(0)
 end
 
+
+
+
 css_style = ''
 CSS_DIR = File.expand_path("~/lib/css/coderay/") # => for coderay testing only
 @include_style = false
-@ultraviolet_css_dir = File.join(Dir.pwd,"css")
+#FIXME hard coded directory for development only!
+doctor.options[:ultraviolet_css_dir] = "/Volumes/AlRaid/Server/Homes/billy/lib/css/ultraviolet"
+
+
 
 #TODO Cleanup option parsing
 opts = OptionParser.new do |opts|
-  init_ultraviolet_options unless @ultraviolet_options
+  
 
 
   opts.banner = "Usage doctorup [options] [textile_file]"
@@ -35,20 +42,22 @@ opts = OptionParser.new do |opts|
     end
   end
 
-  opts.on("--include_style","ultraviolet specific.  Places a style section at the beginging of the page. Mainly used for testing and composing (in WebPreview)") do
+  opts.on("--include_style","Places a style section containing style for theme(s) at the beginging of output") do
     @include_style = true
   end
 
-  opts.on("--css_dir DIR", "Directory where ultraviolet should look for stylesheets.\n\t defaults to #{@ultraviolet_css_dir}\n\tRelevent only whith --include_style") do |d|
+  opts.on("--css_theme_dir DIR", "look for theme sytlesheets in DIR. default:  #{@ultraviolet_css_dir}") do |d|
     if(File.directory?(d) && Dir.glob(File.join(d,"*.css")).entries.size > 0) then
       @ultraviolet_css_dir = d
     else
       raise ArgumentError, "the Directory #{d} either can not be found or has no *.css files"
     end
   end
-  opts.on("-t,","--theme NAME","Use ultraviolet theme THEME.  available choices are #{Uv.themes.join(', ')}") do |theme|
-    @ultraviolet_options[:render_style] = theme if Uv.themes.include?(theme)
+  
+  opts.on("-t,","--theme NAME","Use ultraviolet theme THEME.") do |theme|
+    doctor.options[:render_style] = theme if Snippet.theme_available?(theme)
   end
+  
   opts.on("-n","--name NAME","Use a stylesheet from #{CSS_DIR}\n\t note: you don't need to add the .css") do |n|
     raise ArgumentError,"Can't read from #{CSS_DIR} maybe it doesn't exist?"  unless (File.directory?(CSS_DIR) && File.readable?(CSS_DIR))
     d = Dir.new(CSS_DIR)
@@ -69,24 +78,39 @@ opts = OptionParser.new do |opts|
 end #optparse
 
 opts.parse! ARGV
-if(@parser == :ultraviolet && @include_style) then
-  css_style = wrap_style_from_file(File.join(@ultraviolet_css_dir,"#{@ultraviolet_options[:render_style]}.css"))
+if(@include_style) then
+  css_style = doctor.wrap_style_from_file(File.join(doctor.options[:ultraviolet_css_dir],"#{doctor.options[:render_style]}.css"))
 end
 
-Snippet.options = { :render_style => 'cobaltcs' }
 
 
 input = ARGF.read
-first_pass,second_pass, third_pass = '','',''
+#puts doctor.rx(input,doctor.options)
 
-#first_pass = syntax_up(input)
-first_pass = parse(input)
-#filter through redcloth
-second_pass = textilize(first_pass)
+page = doctor.process(input,doctor.options)
 
-puts css_style if css_style.size > 0
-puts wrap_style(DoctorUp::ultra_violet_info_bar_style)
-#puts first_pass
-puts second_pass
+doctemp = <<-HTML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
-__END__
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>Doctored</title>
+
+
+#{page[:head]}
+
+<style type="text/css" media="screen">
+  #{DoctorUp.ultra_violet_info_bar_style}
+</style>
+
+</head>
+
+<body>
+  #{page[:body];}
+</body>
+</html>
+HTML
+
+print doctemp
