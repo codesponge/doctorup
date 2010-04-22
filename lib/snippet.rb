@@ -24,13 +24,13 @@ TEXTILE
 
 #--------------------------------------------------------------
 
-#DEV LOGGER
-require 'logger'
-@@log = Logger.new( File.join("#{File.dirname(File.dirname(__FILE__))}","develop_logs", "#{self.name}.log"))
-@@log.level = Logger::DEBUG
-@@log.debug("\n#{'-' * 30}\n Logger Started @ #{Time.now}\n#{'-' * 30}")
-
-#<=DEV LOGGER
+# #DEV LOGGER
+# require 'logger'
+# @@log = Logger.new( File.join("#{File.dirname(File.dirname(__FILE__))}","develop_logs", "#{self.name}.log"))
+# @@log.level = Logger::DEBUG
+# @@log.debug("\n#{'-' * 30}\n Logger Started @ #{Time.now}\n#{'-' * 30}")
+# 
+# #<=DEV LOGGER
 
   expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify] # => DEV REMINDER
 
@@ -112,7 +112,6 @@ require 'logger'
 
   def process_inline_theme(elem)
     raise ArgumentError "expected a Hpricot::Elem but got #{elem.class}" unless elem.class == Hpricot::Elem
-    @@log.debug("trying for '#{elem.attributes['theme']}'")
     if(self.class.theme_available?(elem.attributes['theme'])) then
 
 

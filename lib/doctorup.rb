@@ -103,11 +103,15 @@ class DoctorUp
   end
 
   def process(input,opts = {})
-    @page = {}
-    @page[:body] = textilize(parse_code_blocks(input,opts))
-    @page[:head] = linked_style_array.join("\n")
-    @page
+   page = {}
+   page[:body] = textilize(parse_code_blocks(input,opts))
+   page[:head] = linked_style_array.join("\n")
+   page[:themes_used] = Snippet.themes_used
+   page
   end
+
+  
+
 
   def rx(input,opts={})
     syntaxed = parse_code_blocks(input,opts)
