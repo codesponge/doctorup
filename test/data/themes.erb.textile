@@ -1,0 +1,24 @@
+<%
+require 'uv'
+@themes = Uv.themes
+@languages = Uv.syntaxes
+%>
+
+h2. Languages Available
+
+<%= @languages.join(', ') %>
+
+h2. Themes Available
+
+<%  @themes.each do |t| %>
+h3. <%= t %>
+
+<code lang='ruby' theme='<%=t%>'>
+#Coments about dog
+class Dog < Animal
+	def speak
+		"woof"
+	end
+end
+</code>
+<% end %>

@@ -1,9 +1,3 @@
-<code lang='ruby'>
-	def handy
-		"DoctorUp"
-	end
-</code>
-
 h1. Installing and getting started with ultraviolet
 
 The ultraviolet gem requires the "textpow":http://textpow.rubyforge.org/ gem which in turn requires the "oniguruma":http://www.geocities.jp/kosako3/oniguruma/ library and gem.  Instalition isn't as easy as for the majority of gems but it isn't too bad.  This article should get you going.
@@ -61,7 +55,6 @@ rescue LoadError
    require 'plist'
 end
 </code>
-
 
 to look something like this...
 
