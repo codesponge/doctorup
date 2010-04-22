@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "doctorup"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{ syntax highlighting made easy }
+    gem.description = %Q{If you use textile and want to to add syntax highlighting for code blocks then doctorup is for you!  Uses a simple DSL that makes writing documentation and turorials a snap! }
     gem.email = "billy@codesponge.com"
     gem.homepage = "http://github.com/codesponge/doctorup"
     gem.authors = ["codesponge"]
@@ -16,7 +16,7 @@ begin
     end
 
     #either or both of these gems will be required in some version
-    ['coderay','uv']
+    #['coderay','uv']
 
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end

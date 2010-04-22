@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ["codesponge"]
   s.date = %q{2010-04-22}
   s.default_executable = %q{doctorup}
-  s.description = %q{TODO: longer description of your gem}
+  s.description = %q{If you use textile and want to to add syntax highlighting for code blocks then doctorup is for you!  Uses a simple DSL that makes writing documentation and turorials a snap! }
   s.email = %q{billy@codesponge.com}
   s.executables = ["doctorup"]
   s.extra_rdoc_files = [
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "bin/doctorup",
+     "doctorup.gemspec",
      "lib/codesponge.rb",
      "lib/doctorup.rb",
      "lib/snippet.rb",
@@ -41,7 +42,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
-  s.summary = %q{TODO: one-line summary of your gem}
+  s.summary = %q{syntax highlighting made easy}
   s.test_files = [
     "test/helper.rb",
      "test/test_codesponge_options.rb",
