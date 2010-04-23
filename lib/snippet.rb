@@ -40,7 +40,9 @@ TEXTILE
                 :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
                 :theme_for_lang               => {'lang_name' => :theme_name }, # => must use the actual lang name not an alias
                 :tab_stop                     => 2,
-                :line_numbers                 => false,
+                :line_numbers                 => false
+
+              }
 
   include CodeSponge::Options
 
@@ -146,7 +148,7 @@ TEXTILE
               lang.to_s,
               opts[:line_numbers],
               opts[:theme].to_s,
-              opts[:headers] )
+              opts[:headers])
     end
   end
 
