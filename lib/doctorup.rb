@@ -25,7 +25,7 @@ class DoctorUp
                 :tab_stop                     => 2,
                 :line_numbers                 => false,
 
-                :themes_css_url               => 'http://ssss.heroku.com/',  #FIXME hard coded option!
+                :themes_css_url               => '/stylesheets/doctorup',  #great for rails (if you put theme styleshets there!)
                 :themes_css_dir               => File.expand_path(File.join( Uv.path, "render", "xhtml", "files","css" )),
                 :no_info_bar                  => false
               }
