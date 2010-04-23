@@ -2,7 +2,6 @@
 begin
   require 'RedCloth'
   require 'hpricot'
-  require 'coderay'
   require 'optparse'
   require 'uv'
   require 'snippet'
@@ -12,8 +11,6 @@ rescue LoadError
   require 'rubygems'
   require 'RedCloth'
   require 'hpricot'
-  require 'coderay'
-  require 'optparse'
   require 'uv'
 end
 
@@ -22,18 +19,29 @@ end
 class DoctorUp
 
 
-  @@options = { :render_style                 => :cobalt,
+  @@options = { :theme                        => :dawn,  #the theme (or render_style) to use
                 :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
-#                :theme_for_lang               => {'shell-unix-generic' => :sunburst }, # => must use the actual lang name not an alias
+                :theme_for_lang               => {'lang_name' => :theme_name }, # => must use the actual lang name not an alias
                 :tab_stop                     => 2,
                 :line_numbers                 => false,
-                :themes_css_url               => 'http://ssss.heroku.com/'  #FIXME hard coded option!
+
+                :themes_css_url               => 'http://ssss.heroku.com/',  #FIXME hard coded option!
+                :themes_css_dir               => File.expand_path(File.join( Uv.path, "render", "xhtml", "files","css" )),
+                :no_info_bar                  => false
               }
 
   include CodeSponge::Options
 
   def initialize(opts={})
-    @options = self.class.options.merge opts
+    config_file_path = File.expand_path(".doctorup_options.yaml", ENV['HOME'])
+    if(File.readable?(config_file_path)) then
+      @options = self.class.options
+      config_opts = (YAML.load(File.open(config_file_path).read))
+      @options.update(config_opts)
+      @options.update(opts)
+    else
+      @options = self.class.options.merge(opts)
+    end
   end
 
   def self.info_bar_style
@@ -76,17 +84,18 @@ class DoctorUp
     wrap_style File.read(file)
   end
 
-  def page_style
-    styles = wrap_style(self.class.info_bar_style)
-    Snippet.themes_used.each do |t|
-      styles << wrap_style_from_file(File.join(options[:ultraviolet_css_dir],"#{t}.css"))
+  def page_style(theme_names_array)
+    styles = ''
+    styles << wrap_style(self.class.info_bar_style) unless options[:no_info_bar]
+    theme_names_array.each do |t|
+      styles << wrap_style_from_file(File.join(options[:themes_css_dir],"#{t}.css"))
     end
     "<NOTEXTILE>#{styles}</NOTEXTILE>"
   end
 
-  def linked_style_array
+  def linked_style_array(theme_names_array)
     links = []
-    Snippet.themes_used.each do |l|
+    theme_names_array.each do |l|
       url = File.join( "#{options[:themes_css_url]}" ,"#{l}.css")
       links << "<link rel='stylesheet' href='#{url}' type='text/css' media='screen' charset='utf-8'>"
     end
@@ -104,19 +113,18 @@ class DoctorUp
 
   def process(input,opts = {})
    page = {}
-   page[:body] = textilize(parse_code_blocks(input,opts))
-   page[:head] = linked_style_array.join("\n")
+   page[:syntaxed] = parse_code_blocks(input,opts)
+   page[:body] = textilize(page[:syntaxed])
+   page[:head] = linked_style_array(Snippet.themes_used).join("\n")
    page[:themes_used] = Snippet.themes_used
    page
   end
-
-  
 
 
   def rx(input,opts={})
     syntaxed = parse_code_blocks(input,opts)
     textiled = textilize(syntaxed)
-    page_style + textiled
+    page_style(Snippet.themes_used) + textiled
   end
 
 

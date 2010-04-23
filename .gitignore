@@ -19,6 +19,6 @@ rdoc
 pkg
 
 ## PROJECT::SPECIFIC
-irb.scratch
+*.scratch
 irb.session
 develop_logs/

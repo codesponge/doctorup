@@ -10,7 +10,8 @@ h2. Installing oniguruma
 
 Run these commands in your shell.  If you find that there is a newer version you can probably replace the version numbers.
 
-<code lang='shell'>cd ~/Downloads
+<code lang='shell'>
+cd ~/Downloads
 curl "http://www.geocities.jp/kosako3/oniguruma/archive/onig-5.9.2.tar.gz" > onig-5.9.2.tar.gz
 tar xzvf onig-5.9.2.tar.gz
 cd onig-5.9.2

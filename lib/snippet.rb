@@ -36,10 +36,11 @@ TEXTILE
 
 
 
-  @@options = { :render_style                 => :mac_classic,
+  @@options = { :theme                        => :dawn,  #the theme (or render_style) to use
                 :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
+                :theme_for_lang               => {'lang_name' => :theme_name }, # => must use the actual lang name not an alias
                 :tab_stop                     => 2,
-                :line_numbers                 => false }
+                :line_numbers                 => false,
 
   include CodeSponge::Options
 
@@ -91,7 +92,7 @@ TEXTILE
       process_theme_for_lang(lang)
       process_inline_theme(c)
       syntaxified = Hpricot(ultravioletize(c.inner_html, lang)).search("/pre")
-      @@themes_used << options[:render_style]
+      @@themes_used << options[:theme]
       syntaxified.add_class('doctored')
       syntaxified.attr('lang'=>lang)
       syntaxified.inner_html =  build_info_bar({:language=>lang}) + syntaxified.inner_html
@@ -105,7 +106,7 @@ TEXTILE
   def process_theme_for_lang(lang)
     if(options[:theme_for_lang].respond_to?('has_key?')) then
       if(options[:theme_for_lang].has_key?( lang ) and self.class.theme_available?(options[:theme_for_lang][lang]) ) then
-        options[:render_style] = options[:theme_for_lang][lang]
+        options[:theme] = options[:theme_for_lang][lang]
       end
     end
   end
@@ -113,11 +114,10 @@ TEXTILE
   def process_inline_theme(elem)
     raise ArgumentError "expected a Hpricot::Elem but got #{elem.class}" unless elem.class == Hpricot::Elem
     if(self.class.theme_available?(elem.attributes['theme'])) then
-
-
-      options[:render_style] = elem.attributes['theme']
+      options[:theme] = elem.attributes['theme']
     end
   end
+  
   #Accepts an Hpricot:Elem
   #filters the elemets attributes['lang'] -- if it matches a key
   #in @opts[:ultraviolet_language_aliases] then it swaps it with the
@@ -145,7 +145,7 @@ TEXTILE
       syntaxed = Uv.parse(input,"xhtml",
               lang.to_s,
               opts[:line_numbers],
-              opts[:render_style].to_s,
+              opts[:theme].to_s,
               opts[:headers] )
     end
   end

@@ -2,10 +2,10 @@
 begin
   require 'doctorup'
 rescue LoadError
-  #FIXME this load hack is *Only for Development!* (so I don't have to build gem to test cli)
-  $: << "/Volumes/AlRaid/Server/Homes/billy/lib/ruby/gems/doctorup/lib"
+  require 'rubygems'
   require 'doctorup'
 end
+
 doctor = DoctorUp.new
 
 
@@ -15,77 +15,41 @@ if %w(--version -v).include? ARGV.first
 end
 
 
-
-
-css_style = ''
-CSS_DIR = File.expand_path("~/lib/css/coderay/") # => for coderay testing only
-@include_style = false
-#FIXME hard coded directory for development only!
-doctor.options[:ultraviolet_css_dir] = "/Volumes/AlRaid/Server/Homes/billy/lib/css/ultraviolet"
-
-
-
 #TODO Cleanup option parsing
 opts = OptionParser.new do |opts|
-
-
 
   opts.banner = "Usage doctorup [options] [textile_file]"
   opts.separator "If no file specified, STDIN will be used. If you are typing input, you can send an EOF by pressing ^D (^Z on Windows)"
   opts.separator ""
-
-  opts.on("-s","--style FILE","Include FILE wrapped in 'style' tags at begining of output") do |s|
-    if(File.readable?(s)) then
-      css_style << wrap_style(File.read(s))
-    else
-      raise ArgumentError, "The file #{s} doesn't exist or is unreadable"
-    end
-  end
-
-  opts.on("--include_style","Places a style section containing style for theme(s) at the beginging of output") do
-    @include_style = true
-  end
-
-  opts.on("--css_theme_dir DIR", "look for theme sytlesheets in DIR. default:  #{@ultraviolet_css_dir}") do |d|
-    if(File.directory?(d) && Dir.glob(File.join(d,"*.css")).entries.size > 0) then
-      @ultraviolet_css_dir = d
-    else
-      raise ArgumentError, "the Directory #{d} either can not be found or has no *.css files"
-    end
-  end
-
+  opts.separator "To use: pass in a textile file.  If you want to include syntax highlighted snippets of code wrap them in"
+  opts.separator "<code lang='lang_name'></code> tags where lang_name is the name of a programing language."
+  opts.separator ""
+  opts.separator "to see all the languages available do"
+  opts.separator "  doctorup --languages"
+  opts.separator "\n\nOPTIONS"
   opts.on("-t,","--theme NAME","Use ultraviolet theme THEME.") do |theme|
-    doctor.options[:render_style] = theme if Snippet.theme_available?(theme)
+    doctor.options[:theme] = theme if Snippet.theme_available?(theme)
   end
-
-  opts.on("-n","--name NAME","Use a stylesheet from #{CSS_DIR}\n\t note: you don't need to add the .css") do |n|
-    raise ArgumentError,"Can't read from #{CSS_DIR} maybe it doesn't exist?"  unless (File.directory?(CSS_DIR) && File.readable?(CSS_DIR))
-    d = Dir.new(CSS_DIR)
-    available = Dir.glob("#{d.path}/*.css").map{|e| File.basename(e).gsub(/.css/){''} }
-    if(available.include?(n)) then
-      fss = File.join(d.path,"#{n}.css")
-      css_style << wrap_style( File.read(fss) )
-    else
-      puts "Didn't find a css file in #{CSS_DIR} with name #{n}"
-      puts "Try one of these\n\t#{available.join(', ')}" if available.size > 0
-    end
+  opts.on("--themes","List Available themes and exit") do
+    puts Snippet.syntax_themes
+    exit(0)
   end
-
-  opts.on("-p","--parser NAME","Use parser NAME. can be either 'coderay' or 'ultraviolet'\n defaults to #{@parser}") do |parser|
-    raise ArgumentError, "-p, --p Must be either 'coderay' or 'ultraviolet' " unless [:coderay,:ultraviolet].include? parser.to_sym
-    @parser = parser.to_sym
+  opts.on("--languages","List Available languages and exit") do
+    puts Snippet.syntax_languages
+    exit(0)
   end
+  opts.on("--yaml_options", "Output options as yaml and exit") do
+    puts DoctorUp.options.to_yaml
+    exit(0)
+  end
+  
 end #optparse
 
+
 opts.parse! ARGV
-if(@include_style) then
-  css_style = doctor.wrap_style_from_file(File.join(doctor.options[:ultraviolet_css_dir],"#{doctor.options[:render_style]}.css"))
-end
-
-
 
 input = ARGF.read
-#puts doctor.rx(input,doctor.options)
+
 
 page = doctor.process(input,doctor.options)
 
