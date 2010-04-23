@@ -115,6 +115,7 @@ class DoctorUp
    page = {}
    page[:syntaxed] = parse_code_blocks(input,opts)
    page[:body] = textilize(page[:syntaxed])
+   page[:theme_style] = page_style(Snippet.themes_used)
    page[:head] = linked_style_array(Snippet.themes_used).join("\n")
    page[:themes_used] = Snippet.themes_used
    page
