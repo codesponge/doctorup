@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "doctorup"
-    gem.summary = %Q{ syntax highlighting made easy }
-    gem.description = %Q{If you use textile and want to to add syntax highlighting for code blocks then doctorup is for you!  Uses a simple DSL that makes writing documentation and turorials a snap! }
+    gem.summary = %Q{ (BETA) syntax highlighting made easy }
+    gem.description = %Q{(BETA) If you use textile and want to to add syntax highlighting for code blocks then doctorup is for you!  Uses a simple DSL that makes writing documentation and turorials a snap! }
     gem.email = "billy@codesponge.com"
     gem.homepage = "http://github.com/codesponge/doctorup"
     gem.authors = ["codesponge"]
