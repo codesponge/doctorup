@@ -133,7 +133,7 @@ TEXTILE
 
   def build_info_bar(att_hash = {})
       str = att_hash.map {|k,v| "#{k}: '#{v}'"}.join(' ')
-      "<span class='info_bar'>#{str}</span>\n"
+      "<span class='info_bar'>#{str}</span>"
   end
 
 
