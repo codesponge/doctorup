@@ -58,8 +58,7 @@ end
 task :test => :check_dependencies
 
 task :default => :test
-
-require 'rake/rdoctask'
+require 'hanna/rdoctask'
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
@@ -67,4 +66,8 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "doctorup #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.rdoc_files.include('LICENSE')
+  rdoc.options += [
+    '-SHN'
+    ]
 end
