@@ -51,7 +51,7 @@ opts.parse! ARGV
 input = ARGF.read
 
 
-page = doctor.process(input,doctor.options)
+page = doctor.process(input)
 
 doctemp = <<-HTML
 <?xml version="1.0" encoding="UTF-8"?>
