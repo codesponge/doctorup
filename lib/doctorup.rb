@@ -56,7 +56,7 @@ Options cascade in the following order
 4. Set on an instance
     d = DoctorUp.new; d.options[:line_numbers] = true
 5. Passed to one of the output methods.
-    d.process(input,opts={:line_numbers => true})
+    d.process(input,{:line_numbers => true})
 
 An option set furter down that list takes priority.  These options are
 passed to new instances of Snippet, begining a similar option cascade.
