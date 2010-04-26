@@ -5,3 +5,5 @@ Source (clone or fork) on "GitHub":http://github.com/codesponge/doctorup
 Read the "Documentation":http://codesponge.github.com/doctorup/doc/
 
 Have Fun!
+
+So far I have not put any thing in the wiki.
