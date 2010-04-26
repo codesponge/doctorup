@@ -38,11 +38,16 @@ opts = OptionParser.new do |opts|
     puts Snippet.syntax_languages
     exit(0)
   end
+
+  opts.on("--[no-]info_bar","Use an info bar in output?") do |ib|
+    doctor.options[:no_info_bar] = !ib
+  end
+
   opts.on("--yaml_options", "Output options as yaml and exit") do
     puts DoctorUp.options.to_yaml
     exit(0)
   end
-  
+
 end #optparse
 
 
