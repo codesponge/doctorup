@@ -1,33 +1,37 @@
-=begin rdoc
-Copyright (c) 2010 CodeSponge[www.CodeSponge.com] see LICENSE for details
+=begin
+Copyright (c) 2010 "CodeSponge":www.CodeSponge.com see "LICENSE":file.LICENSE.html for details
 
-- A snippet is a string that can spit out syntax hightlighted,
+* A snippet is a string that can spit out syntax hightlighted,
   versions of it's self in HTML.
 
-- The strings value is preserved (syntax is seperate from *Self*).
+* The strings value is preserved (syntax is seperate from *Self*).
 
-- Options are handled via a inheratible option hash.
+* Options are handled via a inheratible option hash.
 
-- A class variable keeps track of themes used so stylesheets can
+* A class variable keeps track of themes used so stylesheets can
   be added smartly.
 
-=== Note:
+h3. Note
+
 A Snippet is ususally instantiated by a parser and probably rarely used on it's own
 see [link]DoctorUp for a more suitable examples
 
-=== Trivial Example:
-  str = <<-EOC
+h3. Trivial Example:
+
+  
   <code lang='ruby'>
   class Dog < Animal
     def speak
       "Woof"
     end
   end
-  EOC
-
+  </code>
+  
   a_snippet = Snippet.new(str,{:line_numbers => true, :theme => 'dawn'})
   syntaxed = a_snippet.to_html
   puts syntaxed # => (html string not displayed because it was breaking rdoc)
+  
+</code></pre>
 =end
 class Snippet < String
   require 'codesponge'
@@ -43,7 +47,7 @@ end
 expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify] # => DEV REMINDER
 
 #default options
-@@options = { :theme                        => :dawn,  #the theme (or render_style) to use
+@@options = {   :theme                        => :dawn,  #the theme (or render_style) to use
                 :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
                 :theme_for_lang               => {'lang_name' => :theme_name }, # => must use the actual lang name not an alias
                 :tab_stop                     => 2,
@@ -130,12 +134,7 @@ to have _+self+_ parsed for syntax highlighting.
   end
 
 
-  #if options[:no_info_bar] is true then returns an empty string,
-  #otherwise creates an info bar. att_hash will get expanded to:
-  # key: value key: value ...
-  #example
-  # build_info_bar({:lang => 'ruby',:File_name => 'lib/sorce.rb'})
-  # => "<span class='info_bar'>lang: ruby File_name: lib/source.rb</span>"
+  #build_info_bar
   def build_info_bar(att_hash = {})
       str = att_hash.map {|k,v| "#{k.to_s}: '#{v.to_s}'"}.join(' ')
       bar = "<span class='info_bar'>#{str}</span>"

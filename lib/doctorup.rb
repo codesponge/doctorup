@@ -14,49 +14,109 @@ rescue LoadError
   require 'hpricot'
   require 'uv'
 end
-=begin rdoc
-= Options
-== Availalbe options (shown with class defaults)
+=begin TEXTILE
 
- :theme => :dawn
-The theme (render_style) to use.  You can do DoctorUp.themes to see a complet list.
+h1. Options
 
- :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'}
-Aliases for languages.
+h2. Availalbe options (shown with class defaults)
 
- :tab_stop => 2
+The defaults listed here may be outdated see the "options class variable":#options-classvariable for actual defaults.
+
+-----------------------------------
+
+h3. :tab_stop
+
 Number of spaces to expand tabs to.
 
- :line_numbers => false
+Default:
+
+ :tab_stop => 2
+ 
+-----------------------------------
+
+h3. :line_numbers
+
 Display line numbers in output?
 
- :themes_css_url => '/stylesheets/doctorup'
+Default:
+
+  :line_numbers => false
+
+-----------------------------------
+
+h3. :themes_css_url
+
 The url prefix for where you keep your theme stylesheets.
 
- :no_info_bar => false
+Default
+
+  :themes_css_url => '/stylesheets/doctorup'
+
+-----------------------------------
+
+h3. :no_info_bar
+
 Don't display the info_bar?
 
+Default
+
+  :no_info_bar => false
+
+-----------------------------------
+
+:themes_css_dir -- Local directory containing theme stylesheets.  Default points to the css folder in the ultraviolet gem dir.
+
+Default
+
  :themes_css_dir => File.expand_path(File.join( Uv.path, "render", "xhtml", "files","css" ))
-Local directory containing theme stylesheets.  Default points to the css folder in the ultraviolet gem dir.
 
- :theme_for_lang => {'lang_name' => :theme_name }
-Will use :theme_name whenever langugage is 'lang_name'.  If you wanted
-to have all JavaScript snippets use the cobalt theme and all ActionScript snippets use the
-idle theme then you could do...</br>
-<tt>DoctorUp.options[:theme_for_lang] = {'actionscript' => :idle,'javascript' => :cobalt }</tt>
+-----------------------------------
 
-== Options Cascade
+h3. :ultraviolet_language_aliases
+
+Aliases for languages.  Use a more convient name for a language.
+
+Default:
+
+  :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'}
+
+-----------------------------------
+
+h3. :theme_for_lang
+
+Will use :theme_name whenever langugage is 'lang_name'.  Does nothing if either lang_name or theme_name are not found.
+
+Default:
+
+  :theme_for_lang => {'lang_name' => :theme_name }
+
+The defaults don't match anything.  (Unless you decide to create a language actually named 'lang_name' and a theme named 'theme_name')
+
+NOTE: This is processed after ultraviolet_language_aliases so you must use the actual language name.
+
+If you wanted to have all JavaScript snippets use the cobalt theme and all ActionScript snippets use the
+idle theme then you could do:
+
+  DoctorUp.options[:theme_for_lang] = {'actionscript' => :idle,'javascript' => :cobalt }
+
+-----------------------------------
+
+h3. Options Cascade
+
 Options cascade in the following order
-1. Set on class.
-    DoctorUp.options[:line_numbers] = true
-2. Set in config file
-    ~/.doctorup_options.yaml
-3. Passed to constructor
-    DoctorUp.new({:line_numbers => true})
-4. Set on an instance
-    d = DoctorUp.new; d.options[:line_numbers] = true
-5. Passed to one of the output methods.
-    d.process(input,{:line_numbers => true})
+
+# Set on class.
+  DoctorUp.options[:line_numbers] = true
+
+# Set in config file
+  ~/.doctorup_options.yaml
+
+# Passed to constructor
+
+# Set on an instance
+
+# Passed to one of the output methods.
+    
 
 An option set furter down that list takes priority.  These options are
 passed to new instances of Snippet, begining a similar option cascade.
@@ -96,8 +156,9 @@ class DoctorUp
   end
 
 
-  #=== this method is here for convenience but may be moved or removed in the future.
-  #some css for the info_bar
+  #This method is here for convenience but may be moved or removed in the future.
+  #
+  #@return [String] Some Default CSS for the info bar
   def self.info_bar_style
     <<-CSS
     	pre.doctored{
@@ -128,7 +189,9 @@ class DoctorUp
     	}
     CSS
   end
-
+  
+  
+  
   def process(input,opts = {})
    page = {}
    page[:syntaxed] = parse_code_blocks(input,opts)
@@ -147,6 +210,21 @@ class DoctorUp
     page_style(Snippet.themes_used) + textiled
   end
 
+
+  #given an array of theme names, returns an array of link
+  #tags pointing to style sheets for each theme.
+  #Uses options[:themes_css_url] as a prefix for the href attribute
+  #@param  [Array] of theme names
+  #@return [Array] of link tags for theme style sheets
+  def linked_style_array(theme_names_array)
+    links = []
+    theme_names_array.each do |l|
+      url = File.join( "#{options[:themes_css_url]}" ,"#{l}.css")
+      links << "<link rel='stylesheet' href='#{url}' type='text/css' media='screen' charset='utf-8'>"
+    end
+    links
+  end
+  
 protected
   
   
@@ -163,19 +241,24 @@ protected
     "<NOTEXTILE>#{styles}</NOTEXTILE>"
   end
 
-  #wrap +content+ in style tags.
+  #@param [String] css
+  #@return [String] @content@ wrapped in style tags.
   def wrap_style(content)
     "<style type='text/css'>" + content + "</style>"
   end
 
-  #wrap contents of file in style tags.
+  #@param [String] file path
+  #@return [String] contents of @file@ wrapped in style tags.
   def wrap_style_from_file(file)
     raise ArgumentError, "The File #{file} doesn't exist or is unreadable" unless File.readable?(file)
     wrap_style File.read(file)
   end
   
-  #parse input for &gt;code&lt; blocks and replaces them with
+  #parse input for code blocks and replaces them with
   #syntax higlighted html in the output.
+  #@param [String] input the doc to parse
+  #@param [Hash] options
+  #@return [String] doc with code blocks replaced with syntax highlighted version
   def parse_code_blocks(input,opts={})
     Snippet.reset_themes_used
     doc = Hpricot(input)
@@ -185,16 +268,6 @@ protected
     doc.to_html
   end
   
-  #given an array of theme names, returns an array of link
-  #tags pointing to style sheets for each theme.
-  #Uses options[:themes_css_url] as a prefix for the href attribute
-  def linked_style_array(theme_names_array)
-    links = []
-    theme_names_array.each do |l|
-      url = File.join( "#{options[:themes_css_url]}" ,"#{l}.css")
-      links << "<link rel='stylesheet' href='#{url}' type='text/css' media='screen' charset='utf-8'>"
-    end
-    links
-  end
+
 
 end
