@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>Doctored</title>
+
+
+<link rel='stylesheet' href='http://ssss.heroku.com/dawn.css' type='text/css' media='screen' charset='utf-8'>
+
+<style type="text/css" media="screen">
+      	pre.doctored{
+    		border:3px solid #788E7D;
+    		padding-left:10px;
+    		padding-top:0px;
+    		padding-bottom:8px;
+    		overflow:auto;
+    	}
+    	pre.doctored span.info_bar{
+    		display:inline-block;
+    /*		color:#FF8E0A;*/
+    		color:#172D33;
+    		position:relative;
+    		top:-1px;
+    		background-color:#788E7D;
+    		font-size:10px;
+    		border:0px solid #788E7D;
+    		border-width:0px 0px 0px 0px;
+    		margin-top:-1px;
+    		margin-left:-10px;
+    		margin-bottom:2px;
+
+    		padding:2px 1em;
+    		/*	bottom right*/
+    		-moz-border-radius-bottomright:1em;
+    		-webkit-border-bottom-right-radius:1em;
+    	}
+
+</style>
+
+</head>
+
+<body>
+  <h3>DoctorUp Trivial Example</h3>
+<p>This</p>
+<pre class="dawn doctored" lang="textile"><span class="info_bar">language: 'textile'</span>
+
+<span class="Entity">h4</span><span class="Entity">.</span> An example
+
+This is a paragraph of the stuff.  It is a great paragraph.
+Of all the paragraphs that ever where, this is probably,
+one of the all time top paragraphs.  It has things that
+are <span class="MarkupBold">*bold*</span>!  Wow, it just keeps getting better.  We find
+that<span class="MarkupItalic"> _some times_</span> words are<span class="MarkupItalic"> _italic_</span>.  Something is <span class="MarkupDeleted">-deleted-</span>.
+
+&lt;<span class="Entity">code</span> <span class="Entity">lang</span>=&quot;ruby&quot;&gt;
+class Dog <span class="InvalidIllegal">&lt;</span> Animal
+  def speak
+    &quot;Woof&quot;
+  end
+end
+&lt;/<span class="Entity">code</span>&gt;
+
+</pre><p>gets turned into..</p>
+<h4>An example</h4>
+<p>This is a paragraph of the stuff.  It is a great paragraph.<br />
+Of all the paragraphs that ever where, this is probably,<br />
+one of the all time top paragraphs.  It has things that<br />
+are <strong>bold</strong>!  Wow, it just keeps getting better.  We find<br />
+that <em>some times</em> words are <em>italic</em>.  Something is <del>deleted</del>.</p>
+<pre class="dawn doctored" lang="ruby"><span class="info_bar">language: 'ruby'</span>
+<span class="Keyword">class</span> <span class="Entity">Dog<span class="Entity"> <span class="PunctuationSeparator">&lt;</span> Animal</span></span>
+  <span class="Keyword">def</span> <span class="Entity">speak</span>
+    &quot;Woof&quot;
+  <span class="Keyword">end</span>
+<span class="Keyword">end</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,39 @@
+h3. Snippet Trivial Example
+
+<code lang='textile'>
+
+h4. An example
+
+This is a paragraph of the stuff.  It is a great paragraph.
+Of all the paragraphs that ever where, this is probably,
+one of the all time top paragraphs.  It has things that
+are *bold*!  Wow, it just keeps getting better.  We find
+that _some times_ words are _italic_.  Something is -deleted-.
+
+<code lang='ruby'>
+class Dog < Animal
+	def speak
+		"Woof"
+	end
+end
+</code>
+
+</code>
+
+
+
+h4. An example
+
+This is a paragraph of the stuff.  It is a great paragraph.
+Of all the paragraphs that ever where, this is probably,
+one of the all time top paragraphs.  It has things that
+are *bold*!  Wow, it just keeps getting better.  We find
+that _some times_ words are _italic_.  Something is -deleted-.
+
+<code lang='ruby'>
+class Dog < Animal
+	def speak
+		"Woof"
+	end
+end
+</code>
