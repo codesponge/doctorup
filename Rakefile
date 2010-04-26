@@ -76,6 +76,40 @@ desc "Create Documentation (using YARD)"
 task :doc => :yard
 
 
+=begin
+#Assuming master is clean!!
+git checkout documentation
+git merge --commit -m 'building docs' master
+rake yard
+# add other stuff or further process doc/
+git add .
+git commit -m 'updated documentation'
+git checkout gh-pages
+git checkout documentation "doc/"
+=end
+
+namespace :doc do
+  
+  
+  task :publish do
+  cmd = <<-EOCMD
+  git checkout documentation && \
+  git merge master && \
+  rake yard && \
+  git commit -m 'built docs' && \
+  git checkout gh-pages && \
+  git checkout documentation "doc/" && \
+  git commit -m 'add updated documentation' && \
+  git push github gh-pages && \
+  git checkout master];
+  EOCMD
+  
+  system(cmd)
+  end
+
+end
+
+
 # require 'hanna/rdoctask'
 # Rake::RDocTask.new do |rdoc|
 #   version = File.exist?('VERSION') ? File.read('VERSION') : ""
