@@ -58,16 +58,34 @@ end
 task :test => :check_dependencies
 
 task :default => :test
-require 'hanna/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "doctorup #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-  rdoc.rdoc_files.include('LICENSE')
-  rdoc.options += [
-    '-SHN'
-    ]
+require 'yard'
+YARD::Rake::YardocTask.new do |yard|
+  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+  
+  yard.options += ['--files','LICENSE']
+  yard.options += ['--title',"DoctorUp #{version}"]
+  yard.options += ['--markup',"textile"]
+  yard.options += ['--protected']
+  yard.options += ['--readme','README.textile']
+  yard.options += ['--files','docs/*.html']
+  puts yard.files
 end
+
+desc "Create Documentation (using YARD)"
+task :doc => :yard
+
+
+# require 'hanna/rdoctask'
+# Rake::RDocTask.new do |rdoc|
+#   version = File.exist?('VERSION') ? File.read('VERSION') : ""
+# 
+#   rdoc.rdoc_dir = 'rdoc'
+#   rdoc.title = "doctorup #{version}"
+#   rdoc.rdoc_files.include('README*')
+#   rdoc.rdoc_files.include('lib/**/*.rb')
+#   rdoc.rdoc_files.include('LICENSE')
+#   rdoc.options += [
+#     '-SHN'
+#     ]
+# end
