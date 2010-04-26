@@ -22,6 +22,4 @@ pkg
 *.scratch
 irb.session
 develop_logs/
-doc/*
-rdoc/*
 .yardoc
