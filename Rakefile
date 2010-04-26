@@ -96,6 +96,7 @@ namespace :doc do
   git checkout documentation && \
   git merge master && \
   rake yard && \
+  git add . && \
   git commit -m 'built docs' && \
   git checkout gh-pages && \
   git checkout documentation "doc/" && \
