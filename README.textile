@@ -1,5 +1,5 @@
 h1. DoctorUp
 
-Here is a paragraph
+Source (clone or fork) on "GitHub":http://github.com/codesponge/doctorup
 
-here is another DoctorUp CodeSponge
+Read the "Documentation":http://codesponge.github.com/doctorup/doc/
