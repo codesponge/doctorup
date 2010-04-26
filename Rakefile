@@ -102,7 +102,7 @@ namespace :doc do
   git checkout documentation "doc/" && \
   git commit -m 'add updated documentation' && \
   git push github gh-pages && \
-  git checkout master]
+  git checkout master
   EOCMD
   
   system(cmd)
