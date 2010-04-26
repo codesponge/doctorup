@@ -90,7 +90,7 @@ git checkout documentation "doc/"
 
 namespace :doc do
   
-  
+  desc "Switch branch,build docs, push up to gh-pages"
   task :publish do
   cmd = <<-EOCMD
   git checkout documentation && \
