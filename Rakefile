@@ -69,7 +69,11 @@ YARD::Rake::YardocTask.new do |yard|
   yard.options += ['--protected']
   yard.options += ['--readme','README.textile']
   yard.options += ['--files','docs/*.html']
-  puts yard.files
+  yard.after = lambda {
+        puts "Syncing up images"
+         system("cp -vR docs/images/ doc/images/")
+    
+            }
 end
 
 desc "Create Documentation (using YARD)"
