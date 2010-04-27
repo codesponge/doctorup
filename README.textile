@@ -6,8 +6,9 @@ Read the "Documentation":http://codesponge.github.com/doctorup/doc/
 
 Have Fun!
 
-So far I have not put any thing in the wiki.
 
 DoctorUp parses text for <pre><code><code></code></code></pre> tags.
+
+and adds syntax highlighting.
 
 Documentation is in progress!
