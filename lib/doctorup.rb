@@ -54,13 +54,13 @@ Default
 
 -----------------------------------
 
-h3. :no_info_bar
+h3. :info_bar
 
-Don't display the info_bar?
+Display the info_bar?
 
 Default
 
-  :no_info_bar => false
+  :info_bar => true
 
 -----------------------------------
 
@@ -135,7 +135,7 @@ class DoctorUp
                 :line_numbers                 => false,
                 :themes_css_url               => '/stylesheets/doctorup',  #great for rails (if you put theme styleshets there!)
                 :themes_css_dir               => File.expand_path(File.join( Uv.path, "render", "xhtml", "files","css" )),
-                :no_info_bar                  => false
+                :info_bar                     => true
               }
 
 
@@ -230,11 +230,11 @@ protected
   
   #given an array of theme names, reads the stylesheets for them,
   #(looking in options[:thems_css_dir] for them) and wraps them in
-  #style tags, also includes info_bar_style unless options[:no_info_bar]
+  #style tags, also includes info_bar_style if options[:info_bar]
   #is set.
   def page_style(theme_names_array)
     styles = ''
-    styles << wrap_style(self.class.info_bar_style) unless options[:no_info_bar]
+    styles << wrap_style(self.class.info_bar_style) if options[:info_bar]
     theme_names_array.each do |t|
       styles << wrap_style_from_file(File.join(options[:themes_css_dir],"#{t}.css"))
     end

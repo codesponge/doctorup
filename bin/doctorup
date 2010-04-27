@@ -40,7 +40,7 @@ opts = OptionParser.new do |opts|
   end
 
   opts.on("--[no-]info_bar","Use an info bar in output?") do |ib|
-    doctor.options[:no_info_bar] = !ib
+    doctor.options[:info_bar] = ib
   end
 
   opts.on("--yaml_options", "Output options as yaml and exit") do

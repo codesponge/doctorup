@@ -52,7 +52,7 @@ expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify] # => DEV REMINDER
                 :theme_for_lang               => {'lang_name' => :theme_name }, # => must use the actual lang name not an alias
                 :tab_stop                     => 2,
                 :line_numbers                 => false,
-                :no_info_bar                  => false
+                :info_bar                  => false
               }
 
  include CodeSponge::Options
@@ -138,7 +138,7 @@ to have _+self+_ parsed for syntax highlighting.
   def build_info_bar(att_hash = {})
       str = att_hash.map {|k,v| "#{k.to_s}: '#{v.to_s}'"}.join(' ')
       bar = "<span class='info_bar'>#{str}</span>"
-      unless(options[:no_info_bar]) then
+      if(options[:info_bar]) then
         bar
       else
         ''
