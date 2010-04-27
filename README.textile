@@ -9,6 +9,6 @@ Have Fun!
 
 DoctorUp parses text for <pre><code><code></code></code></pre> tags.
 
-and adds syntax highlighting.
+and adds syntax highlighting!
 
-Documentation is in progress!
+Documentation is in progress.
