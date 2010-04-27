@@ -95,21 +95,21 @@ git checkout documentation "doc/"
 namespace :doc do
   
   desc "Switch branch,build docs, push up to gh-pages"
-  task :publish do
+  task :git_pages do
   cmd = <<-EOCMD
-  git checkout documentation && \
-  git merge master && \
   rake yard && \
   git add . && \
-  git commit -m 'built docs' && \
+  git stash && \
   git checkout gh-pages && \
-  git checkout documentation "doc/" && \
-  git commit -m 'add updated documentation' && \
+  git stash pop && \
+  git add . && \
+  git commit -m 'update gh-pages docs/' && \
   git push github gh-pages && \
   git checkout master
   EOCMD
   
-  system(cmd)
+  require 'facets'
+  system(cmd) if ask("Are You sure?  master is clean and all that? [Yn]").to_b
   end
 
 end
