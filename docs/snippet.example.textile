@@ -1,8 +1,14 @@
+<notextile>
+<style type="text/css" media="screen">
+div.output { width: 500px; border:1px solid #000;}
+</style>
+</notextile>
+
 h3. Snippet Trivial Example
 
 <code lang='textile'>
 
-h4. An example
+h4. What a great Header I am.
 
 This is a paragraph of the stuff.  It is a great paragraph.
 Of all the paragraphs that ever where, this is probably,
@@ -30,10 +36,11 @@ one of the all time top paragraphs.  It has things that
 are *bold*!  Wow, it just keeps getting better.  We find
 that _some times_ words are _italic_.  Something is -deleted-.
 
-<code lang='ruby'>
+<code lang='ruby' theme='cobalt'>
 class Dog < Animal
 	def speak
 		"Woof"
 	end
 end
 </code>
+

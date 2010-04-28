@@ -43,50 +43,46 @@ def self.dev_key
 end
 
 
-
-expected_methods = [:syntax_up,:to_html,:to_s,:sytaxify] # => DEV REMINDER
-
-#default options
-@@options = {   :theme                        => :dawn,  #the theme (or render_style) to use
-                :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
-                :theme_for_lang               => {'lang_name' => :theme_name }, # => must use the actual lang name not an alias
-                :tab_stop                     => 2,
-                :line_numbers                 => false,
-                :info_bar                  => false
-              }
+#Default Options
+@@options = {   
+  :theme                        => :dawn,  #the theme (or render_style) to use
+  :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
+  :theme_for_lang               => {'lang_name' => :theme_name },
+  :tab_stop                     => 2,
+  :line_numbers                 => false,
+  :info_bar                     => true
+}
 
  include CodeSponge::Options
 
-=begin rdoc
-
-Creates a new Snippet, which is is a sub class of String.
-
-No processing is done on creation. You must actually call to_html
-to have _+self+_ parsed for syntax highlighting.
- str = "<code lang='ruby'>...</code>"
- syntaxed = Snippet.new(str,{:line_numbers => true}).to_html
-=end
-  def initialize(str = '',opts = {})
+ 
+  #@param [String] str
+  #@param [Hash] opts Options
+  def initialize(input = '',opts = {})
     @options = self.class.options.merge opts
-    super(str)
+    super(input)
   end
 
-  # Returns an array of availible languages.
+  
+  #@return [Array] language_names
   def self.syntax_languages
     Uv.syntaxes
-  end
-
-  # Returns an array of available themes.
+  end  
+  
+  #@return [Array] theme_names 
   def self.syntax_themes
     Uv.themes
   end
 
   # Is language available?
+  #@param [String | Symbol] theme_name
+  #@return [Boolean]
   def self.theme_available?(theme_name)
     syntax_themes.include?(theme_name.to_s)
   end
 
   # Is language available?
+  #@param [String | Symbol] lang_name
   def self.language_available?(lang_name)
     syntax_languages.include?(lang_name.to_s)
   end
@@ -96,13 +92,21 @@ to have _+self+_ parsed for syntax highlighting.
     @@themes_used = Set.new
   end
 
-  #A set containing all themes used by Snippets since reset_themes_used was
-  #last called
+  #A set containing all themes used by Snippets,
+  #since reset_themes_used was last called
+  #@return [Set] names of themes
   def self.themes_used
     @@themes_used = Set.new unless defined?(@@themes_used)
     @@themes_used
   end
-
+  
+  #Aliases for class methods
+  class << self
+    alias :languages :syntax_languages
+    alias :themes :syntax_themes
+  end
+  
+  
   #store a html version of _self_ marked up for syntax highlighting
   #in @html
   def syntax_up()
@@ -125,7 +129,7 @@ to have _+self+_ parsed for syntax highlighting.
       self.class.themes_used << options[:theme]
       syntaxified.add_class('doctored')
       syntaxified.attr('lang'=>lang)
-      syntaxified.inner_html =  build_info_bar({:language=>lang}) + syntaxified.inner_html
+      syntaxified.inner_html =  build_info_bar({:language => lang}) + syntaxified.inner_html
       @html = "<NOTEXTILE>" + syntaxified.first.to_html + "</NOTEXTILE>"
     else
       @html = "<NOTEXTILE><pre class='code_nolang'>#{self}</pre></NOTEXTILE>"
@@ -134,7 +138,11 @@ to have _+self+_ parsed for syntax highlighting.
   end
 
 
-  #build_info_bar
+  #Info bar gets displayed in Snippets output
+  #Allows you to pass in helpful info about the snippet,
+  #like language, or perhaps file name.
+  #@param [Hash] att_hash gets expanded to 'key: value key: value ...'
+  #@return [String] Output html for an info_bar or empty string if options[:info_bar] is false
   def build_info_bar(att_hash = {})
       str = att_hash.map {|k,v| "#{k.to_s}: '#{v.to_s}'"}.join(' ')
       bar = "<span class='info_bar'>#{str}</span>"
@@ -147,6 +155,9 @@ to have _+self+_ parsed for syntax highlighting.
 
 
   #wrapper for Uv.parse
+  #@param [String] input
+  #@param [String] lang the syntax language.
+  #@param [Hash] opts Options for ultraviolet
   def ultravioletize(input,lang,opts={})
     opts = options.merge(opts)
 
@@ -173,6 +184,7 @@ to have _+self+_ parsed for syntax highlighting.
 
 protected
 
+  #@param [String]
   def process_theme_for_lang(lang)
     if(options[:theme_for_lang].respond_to?('has_key?')) then
       if(options[:theme_for_lang].has_key?( lang ) and self.class.theme_available?(options[:theme_for_lang][lang]) ) then
@@ -181,7 +193,7 @@ protected
     end
   end
 
-  #Accepts an Hpricot:Elem
+  #@param [Hpricot:Elem] 
   def process_inline_theme(elem)
     raise ArgumentError "expected a Hpricot::Elem but got #{elem.class}" unless elem.class == Hpricot::Elem
     if(self.class.theme_available?(elem.attributes['theme'])) then
@@ -189,7 +201,7 @@ protected
     end
   end
 
-  #Accepts an Hpricot:Elem
+  #@param [Hpricot:Elem]
   def filter_ultraviolet_language_aliaes(elem)
     raise ArgumentError "expected a Hpricot::Elem but got #{elem.class}" unless elem.class == Hpricot::Elem
     if( options[:ultraviolet_language_aliases].has_key?(elem.attributes['lang']) ) then
@@ -197,8 +209,11 @@ protected
     end
     elem
   end
+  
 
 
 #--------------------------------------------------------------
 end # => class Snippet < String
 #--------------------------------------------------------------
+
+

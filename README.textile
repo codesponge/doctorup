@@ -4,10 +4,24 @@ Source (clone or fork) on "GitHub":http://github.com/codesponge/doctorup
 
 Read the "Documentation":http://codesponge.github.com/doctorup/doc/
 
-Have Fun!
+h2. Install
+
+I have not yet published DoctorUp as a gem.  DoctorUp uses ultraviolet for syntax highlighting, there are however separate versions for ruby 1.8.x and 1.9.x (ultraviolet and spox-ultraviolet respectively).  I have not come up 
+with a consistent solution to have the proper ultraviolet gem get installed as a dependency, if you have any hints on this please let me know.  Furthermore there are some minor difficulties installing the dependencies for ultraviolet.
+
+See this post about installing ultraviolet. [[LINK]]
+
+I will publish as a gem within a few days, in the meantime you can build and install the gem
+from source.
+
+h3. Build and install gem from source.
+
+# install ultraviolet or spox-ultraviolet gem "read more"[[LINK]]
+# get the source from github
+	@git clone git://github.com/codesponge/doctorup.git@
 
 
-DoctorUp parses text for <pre><code><code></code></code></pre> tags.
+DoctorUp parses text for <pre><code><code>s</code></code></pre> tags.
 
 and adds syntax highlighting!
 

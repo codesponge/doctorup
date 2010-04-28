@@ -67,8 +67,6 @@ class	 Test_snippet_case < Test::Unit::TestCase
       end
       
     end # => context "created with a string containing a <code> block"
-    
-    
   end # => context "A snippet"
 end # => class
 

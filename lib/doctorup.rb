@@ -127,16 +127,17 @@ instance.
 =end
 class DoctorUp
 
-
-  @@options = { :theme                        => :dawn,  #the theme (or render_style) to use
-                :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
-                :theme_for_lang               => {'lang_name' => :theme_name }, # => must use the actual lang name not an alias
-                :tab_stop                     => 2,
-                :line_numbers                 => false,
-                :themes_css_url               => '/stylesheets/doctorup',  #great for rails (if you put theme styleshets there!)
-                :themes_css_dir               => File.expand_path(File.join( Uv.path, "render", "xhtml", "files","css" )),
-                :info_bar                     => true
-              }
+#Default Options
+@@options = { 
+    :theme                        => :dawn,  #the theme (or render_style) to use
+    :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
+    :theme_for_lang               => {'lang_name' => :theme_name }, # => must use the actual lang name not an alias
+    :tab_stop                     => 2,
+    :line_numbers                 => false,
+    :themes_css_url               => '/stylesheets/doctorup',  #great for rails (if you put theme styleshets there!)
+    :themes_css_dir               => File.expand_path(File.join( Uv.path, "render", "xhtml", "files","css" )),
+    :info_bar                     => true
+}
 
 
   include CodeSponge::Options

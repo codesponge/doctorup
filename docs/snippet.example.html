@@ -8,6 +8,7 @@
 
 
 <link rel='stylesheet' href='http://ssss.heroku.com/dawn.css' type='text/css' media='screen' charset='utf-8'>
+<link rel='stylesheet' href='http://ssss.heroku.com/cobalt.css' type='text/css' media='screen' charset='utf-8'>
 
 <style type="text/css" media="screen">
       	pre.doctored{
@@ -42,10 +43,13 @@
 </head>
 
 <body>
-  <h3>Snippet Trivial Example</h3>
+  <style media="screen" type="text/css">
+div.output { width: 500px; border:1px solid #000;}
+</style>
+<h3>Snippet Trivial Example</h3>
 <pre class="dawn doctored" lang="textile"><span class="info_bar">language: 'textile'</span>
 
-<span class="Entity">h4</span><span class="Entity">.</span> An example
+<span class="Entity">h4</span><span class="Entity">.</span> What a great Header I am.
 
 This is a paragraph of the stuff.  It is a great paragraph.
 Of all the paragraphs that ever where, this is probably,
@@ -67,10 +71,10 @@ Of all the paragraphs that ever where, this is probably,<br />
 one of the all time top paragraphs.  It has things that<br />
 are <strong>bold</strong>!  Wow, it just keeps getting better.  We find<br />
 that <em>some times</em> words are <em>italic</em>.  Something is <del>deleted</del>.</p>
-<pre class="dawn doctored" lang="ruby"><span class="info_bar">language: 'ruby'</span>
-<span class="Keyword">class</span> <span class="Entity">Dog<span class="Entity"> <span class="PunctuationSeparator">&lt;</span> Animal</span></span>
+<pre class="cobalt doctored" lang="ruby"><span class="info_bar">language: 'ruby'</span>
+<span class="Keyword">class</span> <span class="Entity">Dog<span class="EntityInheritedClass"> <span class="Punctuation">&lt;</span> Animal</span></span>
   <span class="Keyword">def</span> <span class="Entity">speak</span>
-    &quot;Woof&quot;
+    <span class="String"><span class="Punctuation">&quot;</span>Woof<span class="Punctuation">&quot;</span></span>
   <span class="Keyword">end</span>
 <span class="Keyword">end</span>
 </pre>
