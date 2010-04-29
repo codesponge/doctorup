@@ -26,7 +26,6 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "bin/doctorup",
-     "docs/converter.rb",
      "docs/doctorup.example.html",
      "docs/doctorup.example.textile",
      "docs/images/codesponge.png",
@@ -44,7 +43,7 @@ Gem::Specification.new do |s|
      "test/test_snippet.rb",
      "test/test_ultraviolet_development.rb"
   ]
-  s.homepage = %q{http://github.com/codesponge/doctorup}
+  s.homepage = %q{http://codesponge.github.com/doctorup/}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
