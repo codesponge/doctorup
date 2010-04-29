@@ -190,17 +190,23 @@ class DoctorUp
     	}
     CSS
   end
-  
-  
-  
+
+
+
   def process(input,opts = {})
    page = {}
    page[:syntaxed] = parse_code_blocks(input,opts)
-   page[:body] = textilize(page[:syntaxed])
+   page[:body] = markup(page[:syntaxed])
    page[:theme_style] = page_style(Snippet.themes_used)
    page[:head] = linked_style_array(Snippet.themes_used).join("\n")
    page[:themes_used] = Snippet.themes_used
    page
+  end
+
+  #Only textile right now, options for others are forthcomming.
+  #@param [String] input The text to get markup.
+  def markup(input,opts = {})
+    textilize(input)
   end
 
   #=== this method is here for convenience but may be moved or removed in the future.

@@ -55,7 +55,6 @@ end
 
  include CodeSponge::Options
 
- 
   #@param [String] str
   #@param [Hash] opts Options
   def initialize(input = '',opts = {})

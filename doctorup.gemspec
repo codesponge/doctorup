@@ -9,23 +9,28 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["codesponge"]
-  s.date = %q{2010-04-23}
+  s.date = %q{2010-04-27}
   s.default_executable = %q{doctorup}
   s.description = %q{(BETA) If you use textile and want to to add syntax highlighting for code blocks then doctorup is for you!  Uses a simple DSL that makes writing documentation and turorials a snap! }
   s.email = %q{billy@codesponge.com}
   s.executables = ["doctorup"]
   s.extra_rdoc_files = [
     "LICENSE",
-     "README.rdoc"
+     "README.textile"
   ]
   s.files = [
     ".document",
      ".gitignore",
      "LICENSE",
-     "README.rdoc",
+     "README.textile",
      "Rakefile",
      "VERSION",
      "bin/doctorup",
+     "docs/doctorup.example.html",
+     "docs/doctorup.example.textile",
+     "docs/images/codesponge.png",
+     "docs/snippet.example.html",
+     "docs/snippet.example.textile",
      "doctorup.gemspec",
      "lib/codesponge.rb",
      "lib/doctorup.rb",
@@ -59,15 +64,18 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<thoughtbot-shoulda>, [">= 0"])
       s.add_runtime_dependency(%q<RedCloth>, [">= 0"])
       s.add_runtime_dependency(%q<hpricot>, [">= 0"])
+      s.add_runtime_dependency(%q<ultraviolet>, [">= 0"])
     else
       s.add_dependency(%q<thoughtbot-shoulda>, [">= 0"])
       s.add_dependency(%q<RedCloth>, [">= 0"])
       s.add_dependency(%q<hpricot>, [">= 0"])
+      s.add_dependency(%q<ultraviolet>, [">= 0"])
     end
   else
     s.add_dependency(%q<thoughtbot-shoulda>, [">= 0"])
     s.add_dependency(%q<RedCloth>, [">= 0"])
     s.add_dependency(%q<hpricot>, [">= 0"])
+    s.add_dependency(%q<ultraviolet>, [">= 0"])
   end
 end
 

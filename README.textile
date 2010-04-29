@@ -6,13 +6,11 @@ Read the "Documentation":http://codesponge.github.com/doctorup/doc/
 
 h2. Install
 
-I have not yet published DoctorUp as a gem.  DoctorUp uses ultraviolet for syntax highlighting, there are however separate versions for ruby 1.8.x and 1.9.x (ultraviolet and spox-ultraviolet respectively).  I have not come up 
-with a consistent solution to have the proper ultraviolet gem get installed as a dependency, if you have any hints on this please let me know.  Furthermore there are some minor difficulties installing the dependencies for ultraviolet.
+I have not yet published DoctorUp as a gem.  DoctorUp uses ultraviolet for syntax highlighting, there are however separate versions for ruby 1.8.x and 1.9.x (ultraviolet and spox-ultraviolet respectively).  I have not come up with a consistent solution to have the proper ultraviolet gem get installed as a dependency, if you have any hints on this please let me know.  Furthermore there are some minor difficulties installing the dependencies for ultraviolet.
 
 See this post about installing ultraviolet. [[LINK]]
 
-I will publish as a gem within a few days, in the meantime you can build and install the gem
-from source.
+I will publish as a gem within a few days, in the meantime you can build and install the gem from source.
 
 h3. Build and install gem from source.
 
