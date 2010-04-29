@@ -6,44 +6,24 @@ Copyright (c) 2010 "CodeSponge":www.CodeSponge.com see "LICENSE":file.LICENSE.ht
 
 * The strings value is preserved (syntax is seperate from *Self*).
 
-* Options are handled via a inheratible option hash.
+* Options are handled via a inheratible option hash. See DoctorUp class for more info.
 
 * A class variable keeps track of themes used so stylesheets can
   be added smartly.
 
-h3. Note
+=== Note
 
 A Snippet is ususally instantiated by a parser and probably rarely used on it's own
-see [link]DoctorUp for a more suitable examples
+see the [[DOC ARTICLES]] for a more info and some examples.
 
-h3. Trivial Example:
 
-  
-  <code lang='ruby'>
-  class Dog < Animal
-    def speak
-      "Woof"
-    end
-  end
-  </code>
-  
-  a_snippet = Snippet.new(str,{:line_numbers => true, :theme => 'dawn'})
-  syntaxed = a_snippet.to_html
-  puts syntaxed # => (html string not displayed because it was breaking rdoc)
-  
-</code></pre>
 =end
 class Snippet < String
   require 'codesponge'
   require 'set'
   include CodeSponge::Handy
 
-def self.dev_key
-  "aklsejowaflkejwoeifjql;kcmlvzkjczkleuproqiwejr"
-end
-
-
-#Default Options
+#Default Options: see Doctor up for an explanation of options.
 @@options = {   
   :theme                        => :dawn,  #the theme (or render_style) to use
   :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
@@ -159,16 +139,14 @@ end
   #@param [Hash] opts Options for ultraviolet
   def ultravioletize(input,lang,opts={})
     opts = options.merge(opts)
-
     silence_warnings do
       syntaxed = Uv.parse(input,"xhtml",
-              lang.to_s,
-              opts[:line_numbers],
-              opts[:theme].to_s,
-              opts[:headers])
+          lang.to_s,
+          opts[:line_numbers],
+          opts[:theme].to_s,
+          opts[:headers] )
     end
   end
-
 
   #return's marked up version with syntax highlighting
   #if syntax_up hasn't been called then it calls it with
@@ -201,6 +179,7 @@ protected
   end
 
   #@param [Hpricot:Elem]
+  #@return [HPricot:Elem]
   def filter_ultraviolet_language_aliaes(elem)
     raise ArgumentError "expected a Hpricot::Elem but got #{elem.class}" unless elem.class == Hpricot::Elem
     if( options[:ultraviolet_language_aliases].has_key?(elem.attributes['lang']) ) then

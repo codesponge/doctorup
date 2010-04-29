@@ -8,7 +8,7 @@ begin
     gem.summary = %Q{ (BETA) syntax highlighting made easy }
     gem.description = %Q{(BETA) If you use textile and want to to add syntax highlighting for code blocks then doctorup is for you!  Uses a simple DSL that makes writing documentation and turorials a snap! }
     gem.email = "billy@codesponge.com"
-    gem.homepage = "http://github.com/codesponge/doctorup"
+    gem.homepage = "http://codesponge.github.com/doctorup/"
     gem.authors = ["codesponge"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     
@@ -65,7 +65,7 @@ YARD::Rake::YardocTask.new do |yard|
   
   yard.options += ['--files','LICENSE']
   yard.options += ['--title',"DoctorUp #{version}"]
-  yard.options += ['--markup',"textile"]
+#  yard.options += ['--markup',"textile"]
   yard.options += ['--protected']
   yard.options += ['--readme','README.textile']
   yard.options += ['--files','docs/*.html']

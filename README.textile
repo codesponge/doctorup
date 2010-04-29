@@ -19,8 +19,4 @@ h3. Build and install gem from source.
 	@git clone git://github.com/codesponge/doctorup.git@
 
 
-DoctorUp parses text for <pre><code><code>s</code></code></pre> tags.
-
-and adds syntax highlighting!
-
 Documentation is in progress.

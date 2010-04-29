@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 begin
-  require 'doctorup'
+  require File.join(ENV['HOME'],%w[lib ruby gems doctorup lib doctorup])
+  #require 'doctorup'
 rescue LoadError
-  require 'rubygems'
-  require 'doctorup'
+  #require 'rubygems'
+  #require 'doctorup'
 end
 
 doctor = DoctorUp.new

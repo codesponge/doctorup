@@ -14,109 +14,100 @@ rescue LoadError
   require 'hpricot'
   require 'uv'
 end
-=begin TEXTILE
+=begin
 
-h1. Options
+= DoctorUp
 
-h2. Availalbe options (shown with class defaults)
+see Usage and Examples at [[LINKS]]
 
-The defaults listed here may be outdated see the "options class variable":#options-classvariable for actual defaults.
+= Options
 
------------------------------------
+== Availalbe options (shown with class defaults)
 
-h3. :tab_stop
+The defaults listed here may be outdated
+see the class variable options(link:#options-classvariable)
+for actual defaults.
+---
 
+=== :tab_stop
 Number of spaces to expand tabs to.
 
 Default:
-
  :tab_stop => 2
- 
------------------------------------
+---
 
-h3. :line_numbers
-
+=== :line_numbers
 Display line numbers in output?
 
 Default:
-
   :line_numbers => false
+---
 
------------------------------------
-
-h3. :themes_css_url
-
+=== :themes_css_url
 The url prefix for where you keep your theme stylesheets.
 
 Default
-
   :themes_css_url => '/stylesheets/doctorup'
+---
 
------------------------------------
-
-h3. :info_bar
-
+=== :info_bar
 Display the info_bar?
 
 Default
-
   :info_bar => true
+---
 
------------------------------------
-
-:themes_css_dir -- Local directory containing theme stylesheets.  Default points to the css folder in the ultraviolet gem dir.
+=== :themes_css_dir
+Local directory containing theme stylesheets.
+Default points to the css folder in the ultraviolet gem dir.
 
 Default
-
  :themes_css_dir => File.expand_path(File.join( Uv.path, "render", "xhtml", "files","css" ))
+---
 
------------------------------------
-
-h3. :ultraviolet_language_aliases
-
+=== :ultraviolet_language_aliases
 Aliases for languages.  Use a more convient name for a language.
 
 Default:
-
   :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'}
+---
 
------------------------------------
-
-h3. :theme_for_lang
-
-Will use :theme_name whenever langugage is 'lang_name'.  Does nothing if either lang_name or theme_name are not found.
+=== :theme_for_lang
+Will use :theme_name whenever langugage is 'lang_name'.  Does nothing if either lang_name or theme_name are not valid.
 
 Default:
-
   :theme_for_lang => {'lang_name' => :theme_name }
 
 The defaults don't match anything.  (Unless you decide to create a language actually named 'lang_name' and a theme named 'theme_name')
 
-NOTE: This is processed after ultraviolet_language_aliases so you must use the actual language name.
+*NOTE:* This is processed after ultraviolet_language_aliases so you must use the actual language name.
+
+EXAMPLE:
 
 If you wanted to have all JavaScript snippets use the cobalt theme and all ActionScript snippets use the
 idle theme then you could do:
 
   DoctorUp.options[:theme_for_lang] = {'actionscript' => :idle,'javascript' => :cobalt }
 
------------------------------------
+= Options Cascade
 
-h3. Options Cascade
 
 Options cascade in the following order
 
-# Set on class.
-  DoctorUp.options[:line_numbers] = true
+1. Set on class.
+    DoctorUp.options[:line_numbers] = true
 
-# Set in config file
-  ~/.doctorup_options.yaml
+2. Set in config file
+    ~/.doctorup_options.yaml
 
-# Passed to constructor
+3. Passed to constructor
+    doctor = DoctorUp.new( {:line_numbers => true} )
 
-# Set on an instance
+4. Set on an instance
+    doctor.options[:line_numbers] = true
 
-# Passed to one of the output methods.
-    
+5. Passed to one of the output methods.
+    doctor.process(input,{:line_numbers => true})
 
 An option set furter down that list takes priority.  These options are
 passed to new instances of Snippet, begining a similar option cascade.
@@ -127,7 +118,8 @@ instance.
 =end
 class DoctorUp
 
-#Default Options
+#Default Options.  You can override these in a config file
+#  ~/.doctorup_options.yml
 @@options = { 
     :theme                        => :dawn,  #the theme (or render_style) to use
     :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
@@ -158,7 +150,6 @@ class DoctorUp
 
 
   #This method is here for convenience but may be moved or removed in the future.
-  #
   #@return [String] Some Default CSS for the info bar
   def self.info_bar_style
     <<-CSS
@@ -203,11 +194,7 @@ class DoctorUp
    page
   end
 
-  #Only textile right now, options for others are forthcomming.
-  #@param [String] input The text to get markup.
-  def markup(input,opts = {})
-    textilize(input)
-  end
+
 
   #=== this method is here for convenience but may be moved or removed in the future.
   #output with style for themes included in the output wrapped in style tags
@@ -217,6 +204,13 @@ class DoctorUp
     page_style(Snippet.themes_used) + textiled
   end
 
+protected
+
+  #Only textile right now, options for others are forthcomming.
+  #@param [String] input The text to get markup.
+  def markup(input,opts = {})
+    textilize(input)
+  end
 
   #given an array of theme names, returns an array of link
   #tags pointing to style sheets for each theme.
@@ -231,10 +225,7 @@ class DoctorUp
     end
     links
   end
-  
-protected
-  
-  
+
   #given an array of theme names, reads the stylesheets for them,
   #(looking in options[:thems_css_dir] for them) and wraps them in
   #style tags, also includes info_bar_style if options[:info_bar]
@@ -249,9 +240,9 @@ protected
   end
 
   #@param [String] css
-  #@return [String] @content@ wrapped in style tags.
-  def wrap_style(content)
-    "<style type='text/css'>" + content + "</style>"
+  #@return [String] input wrapped in style tags.
+  def wrap_style(input)
+    "<style type='text/css'>" + input + "</style>"
   end
 
   #@param [String] file path
@@ -269,7 +260,7 @@ protected
   def parse_code_blocks(input,opts={})
     Snippet.reset_themes_used
     doc = Hpricot(input)
-    doc.search('/code').each do |code|
+    doc.search('code').each do |code|
       code.swap((Snippet.new(code.to_html, opts )).to_html)
     end
     doc.to_html

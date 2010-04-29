@@ -1,6 +1,6 @@
 <notextile>
 <style type="text/css" media="screen">
-div.output { width: 500px; border:1px solid #000;}
+div.output { width:30em;width: 500px; border:1px solid #000;padding:10px;}
 </style>
 </notextile>
 
@@ -14,7 +14,7 @@ This is a paragraph of the stuff.  It is a great paragraph.
 Of all the paragraphs that ever where, this is probably,
 one of the all time top paragraphs.  It has things that
 are *bold*!  Wow, it just keeps getting better.  We find
-that _some times_ words are _italic_.  Something is -deleted-.
+that _some times_ words are _italic_.  We even -have- +had+ pork rinds!
 
 <code lang='ruby'>
 class Dog < Animal
@@ -26,15 +26,17 @@ end
 
 </code>
 
+h3. Gets turned into...
 
+<div class='output'>
 
-h4. An example
+h4. What a great Header I am.
 
 This is a paragraph of the stuff.  It is a great paragraph.
 Of all the paragraphs that ever where, this is probably,
 one of the all time top paragraphs.  It has things that
 are *bold*!  Wow, it just keeps getting better.  We find
-that _some times_ words are _italic_.  Something is -deleted-.
+that _some times_ words are _italic_.  We even -have- +had+ pork rinds!
 
 <code lang='ruby' theme='cobalt'>
 class Dog < Animal
@@ -44,3 +46,4 @@ class Dog < Animal
 end
 </code>
 
+</div>
