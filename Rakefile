@@ -66,11 +66,13 @@ require 'yard'
 YARD::Rake::YardocTask.new do |yard|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
+  system("~/lib/doctorup README.textile > README.html")
+
   yard.options += ['--files','LICENSE']
   yard.options += ['--title',"DoctorUp #{version}"]
 #  yard.options += ['--markup',"textile"]
   yard.options += ['--protected']
-  yard.options += ['--readme','README.textile']
+  yard.options += ['--readme','README.html']
 #  yard.options += ['--files','docs/*.html']
   yard.after = lambda {
         puts "Syncing up images"
