@@ -4,7 +4,12 @@ The ultraviolet gem requires the "textpow":http://textpow.rubyforge.org/ gem whi
 
 The solutions described on this page were done on OS X 10.5.8 using "rvm":http://rvm.beginrescueend.com/ for rubies.  I assume you are using a newer version of rubygems.  If you are using rvm then you should be all set.  If you still have an old version you should probably "update rubygems":http://docs.rubygems.org/read/chapter/3#page14.
 
-I really like rvm, does handy things like <code>rvm gem install gemname</code> which installs @gemname@ for all versions of ruby that you have installed, or <code>rvm tests</code> to run your test suite against multiple versions of ruby.  The former example doesn't work with ultraviolet however as we need to use a different gem for 1.9 ...more on that later.  Regardless of what ruby version we are using we still need the oniguruma library, so lets get that installed...
+
+h3. A quick note about rvm.
+
+Ruby Version Manager ("RVM":http://rvm.beginrescueend.com/) lets you install multiple versions of ruby and smoothly switch between them, complete with gemsets.  I really like rvm, does handy things like <code>rvm gem install gemname</code> which installs @gemname@ for all versions of ruby that you have installed, or <code>rvm tests</code> to run your test suite against multiple versions of ruby.  The former example doesn't work with ultraviolet however as we need to use a different gem for 1.9 ...more on that later.  You definetly don't need rvm to install ultraviolet, but I do recommend giving it a try.
+
+Regardless of what ruby version we are using we still need the oniguruma library, so lets get that installed...
 
 h2. Installing oniguruma
 
@@ -36,7 +41,7 @@ The command line executible 'uv' for 1.9.1 was a bit noisy for me (spits out lot
 h2. Fixing the name error for YAML in theme2xhtmlrender
 
 The @theme2xhtmlrender@ command that comes with ultraviolet didn't work out of the box for me.
-It was failing with a name error for YAML.  Hopefully this will get fixed the next version as the following patch will probably get overwritten if you update the gem.
+It was failing with a name error for YAML.  Hopefully this will get fixed in the next version as the following monkey patch will probably get overwritten if you update the gem.
 
 
 To fix the name error for YAML you can edit the theme2xhtmlrender file in the gems @bin@ directory.
@@ -86,3 +91,9 @@ We can check if the theme is now available
 <code lang='shell'>uv --list themes</code>
 
 If the theme is in that list then it is installed in the gems folder.  If you want to use it in multiple versions of ruby then you have to repeat for each version.
+
+
+h2. Adding a custom Language
+
+I have not yet added a custom language.  I will update this if it takes any tinkering.
+

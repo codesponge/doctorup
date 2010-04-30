@@ -67,18 +67,13 @@ doctemp = <<-HTML
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<title>Doctored</title>
-
-
 #{page[:head]}
-
-<style type="text/css" media="screen">
-  #{DoctorUp.info_bar_style}
-</style>
-
+<link rel="stylesheet" href="http://ssss.heroku.com/codesponge_articles.css" type="text/css" media="screen" charset="utf-8" />
 </head>
-
 <body>
+  <div id="main_content">
   #{page[:body];}
+  </div>
 </body>
 </html>
 HTML

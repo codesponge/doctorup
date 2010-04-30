@@ -32,6 +32,8 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
+
+
 begin
   require 'rcov/rcovtask'
   Rcov::RcovTask.new do |test|
@@ -44,6 +46,7 @@ rescue LoadError
     abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
   end
 end
+
 
 #Clean stuff
 namespace :clean do
@@ -62,7 +65,7 @@ task :default => :test
 require 'yard'
 YARD::Rake::YardocTask.new do |yard|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
-  
+
   yard.options += ['--files','LICENSE']
   yard.options += ['--title',"DoctorUp #{version}"]
 #  yard.options += ['--markup',"textile"]
@@ -93,7 +96,6 @@ git checkout documentation "doc/"
 =end
 
 namespace :doc do
-  
   desc "Switch branch,build docs, push up to gh-pages"
   task :git_pages do
   cmd = <<-EOCMD
@@ -107,9 +109,10 @@ namespace :doc do
   git push github gh-pages && \
   git checkout master
   EOCMD
-  
-  require 'facets'
-  system(cmd) if ask("Are You sure?  master is clean and all that? [Yn]").to_b
+
+    #require 'facets'
+    #system(cmd) if ask("Are You sure?  master is clean and all that? [Yn]").to_b
+    puts "Command Disabled due to merge conflicts (needs a re-write)"
   end
 
 end

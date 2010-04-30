@@ -1,22 +1,98 @@
-h1. DoctorUp
+h1. DoctorUp (BETA)
 
 Source (clone or fork) on "GitHub":http://github.com/codesponge/doctorup
 
 Read the "Documentation":http://codesponge.github.com/doctorup/doc/
 
+h2. Introduction
+
+DoctorUp parses your document and adds syntax highlighting to your code examples using ultraviolet. So it looks snappy like this...
+
+<code lang='ruby'>
+	class dog < Animal
+		def speak
+			"Woof"
+		end
+	end
+</code>
+
+Ultraviolet uses TextMate languages and themes so there is a huge list of languages it can parse and quite a few built in themes.  You can use TextMate to create or edit languages and themes and pull them into ultraviolet.
+
+The variety of languages supported and the ability to create custom themes are what lead to my choosing ultraviolet for syntax highlighting despite the install issues. (more on in install)
+
+h3. Intention
+
+DoctorUp is designed with the intention of being a useful tool in marking up languages like textile, markdown etc.. that may or may not contain snippets of code that deserve syntax highlighting.  It should perform it's job and pass the results on.
+
+If you are looking to create an ultraviolet web-service check out "ultraviolence":http://github.com/technoweenie/ultraviolence
+
+h3. Development
+
+DoctorUp is currently in *active* development.
+
 h2. Install
 
-I have not yet published DoctorUp as a gem.  DoctorUp uses ultraviolet for syntax highlighting, there are however separate versions for ruby 1.8.x and 1.9.x (ultraviolet and spox-ultraviolet respectively).  I have not come up with a consistent solution to have the proper ultraviolet gem get installed as a dependency, if you have any hints on this please let me know.  Furthermore there are some minor difficulties installing the dependencies for ultraviolet.
+I have not yet published DoctorUp as a gem.  DoctorUp uses ultraviolet for syntax highlighting, there are however separate versions for ruby 1.8.x and 1.9.x (ultraviolet and spox-ultraviolet respectively).  It is currently not possible to have variable dependencies in a gemspec so I don't want to release a gem that has such a messed up dependency chain, especially since ultraviolet itself can have dependency related install issues(read on).
 
-See this post about installing ultraviolet. [[LINK]]
+h3. 1st. Get ultraviolet installed
 
-I will publish as a gem within a few days, in the meantime you can build and install the gem from source.
+See this post about installing ultraviolet. [[LINK]]--coming soon
+
 
 h3. Build and install gem from source.
 
 # install ultraviolet or spox-ultraviolet gem "read more"[[LINK]]
-# get the source from github
-	@git clone git://github.com/codesponge/doctorup.git@
+# @git clone git://github.com/codesponge/doctorup.git@
+# @cd doctorup@
+# @rake build@
+# @gem intsall pkg/doctorupX.X.X@  (where X.X.X is current version)
+
+(you may need to use _sudo_ for the install command depending on your system.)
+
+h3. Heroku
+
+Getting ultraviolet working on "heroku":www.heroku.com is a snap.  The required dependencies are in the default gemset.   Which means the DoctorUp plugin is also a snap!
+
+All you have to do to get ultraviolet installed for your heroku app is to add a line @ultraviolet@ to the @.gems@ file at the root of your project.  (you may have to create the file)
 
 
-Documentation is in progress.
+	NOTE: Rails Plugin isn't quite ready for public consumption.  link will be here when it gets released [[LINK]].
+
+
+
+h3. Some workflow examples
+
+h4. GIT based
+
+*gh-pages Documents*
+I use github which has a great feature called "gh-pages":http://pages.github.com/.  In a nutshell it works like this...
+
+Create a branch named gh-pages in your repo and anything you push to that branch will be served at http://*username*.github.com/*reponame*/
+
+I am using this workflow to publish this document (the one you are reading) which I am writing in textile. 
+
+I use a rake task ( doc:publish ) to...
+
+* Generate inline documentation with yard.
+* Use DoctorUp to parse _filename_.doctorup._markup_ files and out put them as _filename_.html
+* Merge the generated files into a gh-pages branch.
+* Push the gh-pages branch to github.
+
+Viola, my documentation (including this page) is published.
+
+I am currently using a simple homespun template solution, but   easy integration into a "Jeckyll":http://github.com/mojombo/jekyll/#readme workflow is a planned feature.
+
+
+*version control based blog*
+I haven't done this per se, but a workflow similar to the gh-pages example above would work great.
+
+
+h4. DB based
+
+h3. Rails Plugin
+
+I am using DoctorUp as a rails plugin.  (which will be public soon).  Here are the basics of how it works.
+As I may have said before ultraviolet isn't very snappy; a large document may take 10+ seconds to parse. I don't want to have this run very often, so I make sure it only happens once. I keep the textile version of an article in :source and a before_save callback in the article model generates the markup and saves it in :body, it also saves an array to :themes_used which can be used by a helper in the layout to include just the style sheets for the themes used.
+
+That may have sounded complex but it is really pretty simple and it didn't take long to implement.  I want to implement better clues for caching before it releases.
+
