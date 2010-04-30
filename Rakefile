@@ -68,7 +68,7 @@ YARD::Rake::YardocTask.new do |yard|
 #  yard.options += ['--markup',"textile"]
   yard.options += ['--protected']
   yard.options += ['--readme','README.textile']
-  yard.options += ['--files','docs/*.html']
+#  yard.options += ['--files','docs/*.html']
   yard.after = lambda {
         puts "Syncing up images"
          system("cp -vR docs/images/ doc/images/")
