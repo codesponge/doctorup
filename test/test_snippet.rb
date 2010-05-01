@@ -16,11 +16,11 @@ class	 Test_snippet_case < Test::Unit::TestCase
 	  setup do
   		@snippet = Snippet.new
   	end
-    
-    should "Be testing the correct file" do
-      assert_equal(Snippet.dev_key,"aklsejowaflkejwoeifjql;kcmlvzkjczkleuproqiwejr")
-    end
-    
+    # 
+    # should "Be testing the correct file" do
+    #   assert_equal(Snippet.dev_key,"aklsejowaflkejwoeifjql;kcmlvzkjczkleuproqiwejr")
+    # end
+    # 
   	should "be like a string" do
   		assert_equal(@snippet, @snippet.to_s)
   	end

@@ -7,12 +7,13 @@ begin
   require 'uv'
   require File.join(File.dirname(__FILE__),'snippet') # => needed to do this because I was loading from gem
   require 'set'
-  require File.join(File.dirname(__FILE__),'codesponge')
+  #require File.join(File.dirname(__FILE__),'codesponge')
 rescue LoadError
   require 'rubygems'
   require 'RedCloth'
   require 'hpricot'
   require 'uv'
+  require 'codesponge'
 end
 =begin
 
