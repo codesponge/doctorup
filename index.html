@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>Doctored</title>
+<link rel='stylesheet' href='http://ssss.heroku.com/dawn.css' type='text/css' media='screen' charset='utf-8'>
+<link rel="stylesheet" href="http://ssss.heroku.com/codesponge_articles.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+  <div id="main_content">
+  <h1>DoctorUp (<span class="caps">BETA</span>)</h1>
+<p>Source (clone or fork) on <a href="http://github.com/codesponge/doctorup">GitHub</a></p>
+<p>Read the <a href="http://codesponge.github.com/doctorup/doc/">Documentation</a></p>
+<h2>Introduction</h2>
+<p>DoctorUp parses your document and adds syntax highlighting to your code examples using ultraviolet. So it looks snappy like this&#8230;</p>
+<pre class="dawn doctored" lang="ruby"><span class="info_bar">language: 'ruby'</span>
+  <span class="Keyword">class</span> <span class="Entity">dog<span class="Entity"> <span class="PunctuationSeparator">&lt;</span> Animal</span></span>
+    <span class="Keyword">def</span> <span class="Entity">speak</span>
+      &quot;Woof&quot;
+    <span class="Keyword">end</span>
+  <span class="Keyword">end</span>
+</pre><p>Ultraviolet uses TextMate languages and themes so there is a huge list of languages it can parse and quite a few built in themes.  You can use TextMate to create or edit languages and themes and pull them into ultraviolet.</p>
+<p>The variety of languages supported and the ability to create custom themes are what led to my choosing ultraviolet for syntax highlighting despite the install issues. (More on this in install.)</p>
+<h3>Intention</h3>
+<p>DoctorUp is designed with the intention of being a useful tool in marking up languages like textile, markdown, etc., that may or may not contain snippets of code that deserve syntax highlighting.  It should perform its job and pass the results on.  The intention of doctor up is not to create a templating system, or a site generation tool, but rather be a tool that is used as a step in one of those systems.</p>
+<p>If you are looking to create an ultraviolet web-service, check out <a href="http://github.com/technoweenie/ultraviolence">ultraviolence</a>.</p>
+<h3>Development</h3>
+<p>DoctorUp is currently in <strong>active</strong> development.</p>
+<h2>Install</h2>
+<p>I have not yet published DoctorUp as a gem.  DoctorUp uses ultraviolet for syntax highlighting; there are however separate versions for ruby 1.8.x and 1.9.x (ultraviolet and spox-ultraviolet respectively).  It is currently not possible to have variable dependencies in a gemspec so I don&#8217;t want to release a gem that has such a messed up dependency chain, especially since ultraviolet itself can have dependency-related install issues (read on).</p>
+<h3>Step 1: Get ultraviolet Installed</h3>
+<ol>
+	<li>See this article &#8212; <a href="http://codesponge.com/articles/3-installing_ultraviolet_gem">installing ultraviolet</a></li>
+	<li>Install ultraviolet or spox-ultraviolet gem</li>
+</ol>
+<h3>Step 2: Build and Install DoctorUp Gem from Source</h3>
+<ol>
+	<li><code>git clone git://github.com/codesponge/doctorup.git</code></li>
+	<li><code>cd doctorup</code></li>
+	<li><code>rake build</code></li>
+	<li><code>gem intsall pkg/doctorupX.X.X</code>  (where X.X.X is current version)</li>
+</ol>
+<p>(You may need to use <em>sudo</em> for the install command depending on your system.)</p>
+<h3>Heroku</h3>
+<p>Getting ultraviolet working on <a href="www.heroku.com">heroku</a> is a snap.  The required dependencies are in the default gemset.   Which means the DoctorUp plugin is also a snap!</p>
+<p>All you have to do to get ultraviolet installed for your heroku app is to add a line <code>ultraviolet</code> to the <code>.gems</code> file at the root of your project.  (You may have to create the file.)</p>
+<p><span class="caps">NOTE</span>: Rails Plugin isn&#8217;t quite ready for public consumption.  Link will be here when it gets released [[<span class="caps">LINK</span>]].</p>
+<h3>Some Workflow Examples</h3>
+<h4><span class="caps">GIT</span> based</h4>
+<p><strong>gh-pages Documents</strong><br />
+I use github which has a great feature called <a href="http://pages.github.com/">gh-pages</a>.  In a nutshell it works like this&#8230;</p>
+<p>Create a branch named gh-pages in your repo and anything you push to that branch will be served at http://<strong>username</strong>.github.com/<strong>reponame</strong>/</p>
+<p>I am using this workflow to publish this document (the one you are reading) which I am writing in textile.</p>
+<p>I use a rake task ( doc:publish ) to&#8230;</p>
+<ul>
+	<li>Generate inline documentation with yard.</li>
+	<li>Use DoctorUp to parse <em>filename_.doctorup._markup</em> files and out put them as <em>filename</em>.html.</li>
+	<li>Merge the generated files into a gh-pages branch.</li>
+	<li>Push the gh-pages branch to github.</li>
+</ul>
+<p>Viola; my documentation (including this page) is published.</p>
+<p>I am currently using a simple homespun template solution, but   easy integration into a <a href="http://github.com/mojombo/jekyll/#readme">Jeckyll</a> workflow is a planned feature.</p>
+<p><strong>version control based blog</strong><br />
+I haven&#8217;t done this per se, but a workflow similar to the gh-pages example above would work great.</p>
+<h4>DB based</h4>
+<h3>Rails Plugin</h3>
+<p>I am using DoctorUp as a rails plugin (which will be public soon).  Here are the basics of how it works:</p>
+<p>As I may have said before ultraviolet isn&#8217;t very snappy; a large document may take 10+ seconds to parse. I don&#8217;t want to have this run very often, so I make sure it only happens once. I keep the textile version of an article in :source and a before_save callback in the article model generates the markup and saves it in :body. It also saves an array to :themes_used which can be used by a helper in the layout to include just the style sheets for the themes used.</p>
+<p>That may have sounded complex but it is really pretty simple and it didn&#8217;t take long to implement.  I want to implement better clues for caching before it releases.</p>
+  </div>
+</body>
+</html>
