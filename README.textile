@@ -22,7 +22,7 @@ The variety of languages supported and the ability to create custom themes are w
 
 h3. Intention
 
-DoctorUp is designed with the intention of being a useful tool in marking up languages like textile, markdown, etc., that may or may not contain snippets of code that deserve syntax highlighting.  It should perform its job and pass the results on.
+DoctorUp is designed with the intention of being a useful tool in marking up languages like textile, markdown, etc., that may or may not contain snippets of code that deserve syntax highlighting.  It should perform its job and pass the results on.  The intention of doctor up is not to create a templating system, or a site generation tool, but rather be a tool that is used as a step in one of those systems.
 
 If you are looking to create an ultraviolet web-service, check out "ultraviolence":http://github.com/technoweenie/ultraviolence.
 
