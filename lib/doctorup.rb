@@ -5,21 +5,23 @@ begin
   require 'hpricot'
   require 'optparse'
   require 'uv'
-  require File.join(File.dirname(__FILE__),'snippet') # => needed to do this because I was loading from gem
+  require 'snippet'
+  require 'codesponge'
   require 'set'
-  #require File.join(File.dirname(__FILE__),'codesponge')
 rescue LoadError
   require 'rubygems'
   require 'RedCloth'
   require 'hpricot'
   require 'uv'
-  require 'codesponge'
 end
+
 =begin
 
 = DoctorUp
 
-see Usage and Examples at [[LINKS]]
+The process method is the work-horse of DoctorUp and should be the call you use most often
+
+see Usage and Examples at [[LINKS]] --comming soon
 
 = Options
 
@@ -99,7 +101,7 @@ Options cascade in the following order
     DoctorUp.options[:line_numbers] = true
 
 2. Set in config file
-    ~/.doctorup_options.yaml
+    ~/.doctorup_options.yml
 
 3. Passed to constructor
     doctor = DoctorUp.new( {:line_numbers => true} )
@@ -138,7 +140,7 @@ class DoctorUp
 
   #create a DoctorUp instance with Options
   def initialize(opts={})
-    config_file_path = File.expand_path(".doctorup_options.yaml", ENV['HOME'])
+    config_file_path = File.expand_path(".doctorup_options.yml", ENV['HOME'])
     if(File.readable?(config_file_path)) then
       @options = self.class.options
       config_opts = (YAML.load(File.open(config_file_path).read))
@@ -148,7 +150,6 @@ class DoctorUp
       @options = self.class.options.merge(opts)
     end
   end
-
 
   #This method is here for convenience but may be moved or removed in the future.
   #@return [String] Some Default CSS for the info bar
@@ -186,8 +187,10 @@ class DoctorUp
 
 
   def process(input,opts = {})
+    @options.update opts
    page = {}
-   page[:syntaxed] = parse_code_blocks(input,opts)
+   page[:raw]
+   page[:syntaxed] = parse_code_blocks(input,@options)
    page[:body] = markup(page[:syntaxed])
    page[:theme_style] = page_style(Snippet.themes_used)
    page[:head] = linked_style_array(Snippet.themes_used).join("\n")

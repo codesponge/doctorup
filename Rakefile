@@ -17,8 +17,8 @@ begin
     end
     # the 'uv' gem is required if ruby version 1.8.6 or 1.8.7
     # the 'uv' gem is required if ruby version 1.9.x
-
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

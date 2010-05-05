@@ -16,19 +16,28 @@ DoctorUp parses your document and adds syntax highlighting to your code examples
 	end
 </code>
 
-Ultraviolet uses TextMate languages and themes so there is a huge list of languages it can parse and quite a few built in themes.  You can use TextMate to create or edit languages and themes and pull them into ultraviolet.
+Ultraviolet uses TextMate languages and themes so there is a huge list of languages it can parse and quite a few built-in themes.  You can use TextMate to create or edit languages and themes and pull them into ultraviolet.
 
-The variety of languages supported and the ability to create custom themes are what led to my choosing ultraviolet for syntax highlighting despite the install issues. (More on this in install.)
+The variety of languages supported and the ability to easily create custom themes are what led to my choosing ultraviolet for syntax highlighting despite the install issues. (More on the install issues in a bit)
 
 h3. Intention
 
-DoctorUp is designed with the intention of being a useful tool in marking up languages like textile, markdown, etc., that may or may not contain snippets of code that deserve syntax highlighting.  It should perform its job and pass the results on.  The intention of doctor up is not to create a templating system, or a site generation tool, but rather be a tool that is used as a step in one of those systems.
+DoctorUp is designed with the intention of being a useful tool in marking up languages like html, textile, markdown, etc., that may or may not contain snippets of code that deserve syntax highlighting.  It should perform its job and pass the results on.  The intention of doctor up is not to create a template system, or a site generation tool, but rather be a tool that is used as a step in one of those systems.
 
-If you are looking to create an ultraviolet web-service, check out "ultraviolence":http://github.com/technoweenie/ultraviolence.
+Ulatrviolet isn't very fast so results should be part of a generation process or stored.
+
+If you are looking to create or use an ultraviolet web-service, check out (1.9 only) "ultraviolence":http://github.com/technoweenie/ultraviolence.
 
 h3. Development
 
 DoctorUp is currently in *active* development.
+
+Planned Features
+
+* markup other than textile.
+* rails plugin -- in development.
+
+
 
 h2. Install
 
@@ -56,6 +65,62 @@ All you have to do to get ultraviolet installed for your heroku app is to add a 
 
 
 	NOTE: Rails Plugin isn't quite ready for public consumption.  Link will be here when it gets released [[LINK]].
+
+h2. Use
+
+<code lang='ruby'>
+	require 'doctorup'
+	doctor = DoctorUp.new
+	
+	#assuming there is a document called "super_code.textile"
+	
+	page = doctor.process(File.open("super_code.textile").read )
+	
+</code>
+
+The process method returns a hash containing the following
+* :raw
+   The input unchanged
+
+* @:syntaxed@
+   The input with syntax highlighting (no markup filter applied)
+   Great if input is already html. If your prefered markup isn't yet available in DoctorUp then pass this through your filter.
+
+* @:body@
+   The input with syntax highlighting and markup filter applied (textile?)
+
+* @:head@
+   Link tags pointing to theme stylesheets (uses options[:themes_css_url] )
+
+* @:theme_style@
+   style for themes wrapped in style tags (pulls style sheets from options[:themes_css_dir])
+
+* @:themes_used@
+   An array containing the names of the themes used. You could use :head or :theme_style for
+   development and in production use this array to point to an external source like S3.
+   This can also be used to check that only the theme(s) you like made it into your layout.
+
+Continuing the example above we can generate a complete page with...
+
+<code lang='ruby' theme='cobaltcs'>
+doctemp = <<-DOC_END
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head><title>Doctored</title>
+#{page[:theme_style]}
+</head>
+<body>
+  <div id="main_content">
+  #{page[:body];}
+  </div>
+</body>
+</html>
+DOC_END
+
+print doctemp
+</code>
 
 
 
@@ -92,7 +157,7 @@ h3. Rails Plugin
 
 I am using DoctorUp as a rails plugin (which will be public soon).  Here are the basics of how it works:
 
-As I may have said before ultraviolet isn't very snappy; a large document may take 10+ seconds to parse. I don't want to have this run very often, so I make sure it only happens once. I keep the textile version of an article in :source and a before_save callback in the article model generates the markup and saves it in :body. It also saves an array to :themes_used which can be used by a helper in the layout to include just the style sheets for the themes used.
+As I may have said before ultraviolet isn't very snappy; a very large document may take 10+ seconds to parse. I don't want to have this run very often, so I make sure it only happens once. I keep the textile version of an article in :source and a before_save callback in the model generates the markup and saves it in :body. It also saves an array to :themes_used which can be used by a helper in the layout to include just the style sheets for the themes used.
 
-That may have sounded complex but it is really pretty simple and it didn't take long to implement.  I want to implement better clues for caching before it releases.
+That may have sounded complex but it is really pretty simple and it didn't take long to implement.  I want to implement better clues for caching, and more thorough tests before it releases.  (if you are a cache master, and want to help let me know!)
 

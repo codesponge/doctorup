@@ -9,19 +9,21 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["codesponge"]
-  s.date = %q{2010-04-29}
+  s.date = %q{2010-05-05}
   s.default_executable = %q{doctorup}
   s.description = %q{(BETA) If you use textile and want to to add syntax highlighting for code blocks then doctorup is for you!  Uses a simple DSL that makes writing documentation and turorials a snap! }
   s.email = %q{billy@codesponge.com}
   s.executables = ["doctorup"]
   s.extra_rdoc_files = [
     "LICENSE",
+     "README.html",
      "README.textile"
   ]
   s.files = [
     ".document",
      ".gitignore",
      "LICENSE",
+     "README.html",
      "README.textile",
      "Rakefile",
      "VERSION",

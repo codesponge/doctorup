@@ -9,6 +9,7 @@ module Handy
   ensure
     $VERBOSE = old_verbose
   end
+
 end # => module Handy
 
 

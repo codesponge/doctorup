@@ -62,6 +62,7 @@ class Snippet < String
 
   # Is language available?
   #@param [String | Symbol] lang_name
+  #@return [Boolean]
   def self.language_available?(lang_name)
     syntax_languages.include?(lang_name.to_s)
   end
@@ -71,8 +72,8 @@ class Snippet < String
     @@themes_used = Set.new
   end
 
-  #A set containing all themes used by Snippets,
-  #since reset_themes_used was last called
+  #A set containing all themes used by all Snippets,
+  #since reset_themes_used was last called.
   #@return [Set] names of themes
   def self.themes_used
     @@themes_used = Set.new unless defined?(@@themes_used)
@@ -187,8 +188,6 @@ protected
     end
     elem
   end
-  
-
 
 #--------------------------------------------------------------
 end # => class Snippet < String
