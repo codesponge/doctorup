@@ -1,0 +1,10 @@
+= DoctorUp
+
+If you are online checkout the readme/documentation at
+http://codesponge.github.com/doctorup/doc/
+
+If you are stuck on a terminal you can have a look at the
+README.textile file.
+
+If you are going to generate documentation from the source please use yard.
+
