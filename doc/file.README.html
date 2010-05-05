@@ -55,8 +55,9 @@
 <body>
   <div id="main_content">
   <h1>DoctorUp (<span class="caps">BETA</span>)</h1>
-<p>Source (clone or fork) on <a href="http://github.com/codesponge/doctorup">GitHub</a></p>
+<p>Source (Fork) on <a href="http://github.com/codesponge/doctorup">GitHub</a></p>
 <p>Read the <a href="http://codesponge.github.com/doctorup/doc/">Documentation</a></p>
+<p>Bugs? Suggestions? check out <a href="http://github.com/codesponge/doctorup/issues">issues</a></p>
 <h2>Introduction</h2>
 <p>DoctorUp parses your document and adds syntax highlighting to your code examples using ultraviolet. So it looks snappy like this&#8230;</p>
 <pre class="dawn doctored" lang="ruby"><span class="info_bar">language: 'ruby'</span>
@@ -65,13 +66,21 @@
       &quot;Woof&quot;
     <span class="Keyword">end</span>
   <span class="Keyword">end</span>
-</pre><p>Ultraviolet uses TextMate languages and themes so there is a huge list of languages it can parse and quite a few built in themes.  You can use TextMate to create or edit languages and themes and pull them into ultraviolet.</p>
-<p>The variety of languages supported and the ability to create custom themes are what led to my choosing ultraviolet for syntax highlighting despite the install issues. (More on this in install.)</p>
+</pre><p>Ultraviolet uses TextMate languages and themes so there is a huge list of languages it can parse and has quite a few built-in themes.  You can use TextMate to create or edit languages and themes and pull them into ultraviolet.</p>
+<p>The variety of languages supported and the ability to easily create custom themes are what led to my choosing ultraviolet for syntax highlighting despite the install issues. (More on the install issues in a bit)</p>
 <h3>Intention</h3>
-<p>DoctorUp is designed with the intention of being a useful tool in marking up languages like textile, markdown, etc., that may or may not contain snippets of code that deserve syntax highlighting.  It should perform its job and pass the results on.  The intention of doctor up is not to create a templating system, or a site generation tool, but rather be a tool that is used as a step in one of those systems.</p>
-<p>If you are looking to create an ultraviolet web-service, check out <a href="http://github.com/technoweenie/ultraviolence">ultraviolence</a>.</p>
+<p>DoctorUp is designed with the intention of being a useful tool in marking up languages like html, textile, markdown, etc., that may or may not contain snippets of code that deserve syntax highlighting.  It should perform its job and pass the results on.  The intention of doctor up is not to create a template system, or a site generation tool, but rather be a tool that is used as a step in one of those systems.</p>
+<p>Ulatrviolet isn&#8217;t very fast so results should be part of a generation process or stored.</p>
+<p>If you are looking to create or use an ultraviolet web-service, check out (1.9 only) <a href="http://github.com/technoweenie/ultraviolence">ultraviolence</a>.</p>
 <h3>Development</h3>
 <p>DoctorUp is currently in <strong>active</strong> development.</p>
+<p>Planned/Possible Features</p>
+<ul>
+	<li>Markup other than textile.</li>
+	<li>Rails plugin &#8212; in development/testing.</li>
+	<li>Possibility of using custom tags as markers for what gets syntax highlighting.  (other than &lt;code lang=&#8216;lang&#8217;&gt; tags)</li>
+	<li>Output other than (x)html.</li>
+</ul>
 <h2>Install</h2>
 <p>I have not yet published DoctorUp as a gem.  DoctorUp uses ultraviolet for syntax highlighting; there are however separate versions for ruby 1.8.x and 1.9.x (ultraviolet and spox-ultraviolet respectively).  It is currently not possible to have variable dependencies in a gemspec so I don&#8217;t want to release a gem that has such a messed up dependency chain, especially since ultraviolet itself can have dependency-related install issues (read on).</p>
 <h3>Step 1: Get ultraviolet Installed</h3>
@@ -87,11 +96,68 @@
 	<li><code>gem intsall pkg/doctorupX.X.X</code>  (where X.X.X is current version)</li>
 </ol>
 <p>(You may need to use <em>sudo</em> for the install command depending on your system.)</p>
+<p>If you think you might contribute to DoctorUp then please create a fork and use that to clone from.</p>
 <h3>Heroku</h3>
-<p>Getting ultraviolet working on <a href="www.heroku.com">heroku</a> is a snap.  The required dependencies are in the default gemset.   Which means the DoctorUp plugin is also a snap!</p>
-<p>All you have to do to get ultraviolet installed for your heroku app is to add a line <code>ultraviolet</code> to the <code>.gems</code> file at the root of your project.  (You may have to create the file.)</p>
-<p><span class="caps">NOTE</span>: Rails Plugin isn&#8217;t quite ready for public consumption.  Link will be here when it gets released [[<span class="caps">LINK</span>]].</p>
-<h3>Some Workflow Examples</h3>
+<p>Getting ultraviolet working on <a href="www.heroku.com">heroku</a> is a snap.  The required dependencies are in the default gemset.   Which means the DoctorUp plugin<sup class="footnote" id="fnr1"><a href="#fn1">1</a></sup> is also a snap!</p>
+<p>All you have to do to get ultraviolet installed for your heroku app is to add a line <code>ultraviolet</code> to the <code>.gems</code> file at the root of your project.  (You may have to create the file.)<br />
+More info about the gem manifest on the <a href="http://docs.heroku.com/gems">Heroku Docs</a></p>
+<p class="footnote" id="fn1"><a href="#fnr1"><sup>1</sup></a> <span class="caps">NOTE</span>: Rails Plugin isn&#8217;t quite ready for public consumption.  Link will be here when it gets released [[<span class="caps">LINK</span>]] &#8212; coming soon.</p>
+<h2>Use</h2>
+<pre class="dawn doctored" lang="ruby"><span class="info_bar">language: 'ruby'</span>
+  <span class="Keyword">require</span> 'doctorup'
+  doctor <span class="Keyword">=</span> <span class="Support">DoctorUp</span><span class="PunctuationSeparator">.</span><span class="Entity">new</span>
+  
+<span class="Comment">  <span class="Comment">#</span>assuming there is a document called &quot;super_code.textile&quot;</span>
+  
+  page <span class="Keyword">=</span> doctor<span class="PunctuationSeparator">.</span><span class="Entity">process</span>(<span class="Support">File</span><span class="PunctuationSeparator">.</span><span class="Entity">open</span>(&quot;super_code.textile&quot;)<span class="PunctuationSeparator">.</span><span class="Entity">read</span> )
+  
+</pre><p>The <code>process</code> method returns a hash containing the following</p>
+<ul>
+	<li>:raw<br />
+   The input unchanged</li>
+</ul>
+<ul>
+	<li><code>:syntaxed</code><br />
+   The input with syntax highlighting (no markup filter applied)<br />
+   Great if input is already html. If your prefered markup isn&#8217;t yet available in DoctorUp then pass this through your filter.</li>
+</ul>
+<ul>
+	<li><code>:body</code><br />
+   The input with syntax highlighting and markup filter applied (textile?)</li>
+</ul>
+<ul>
+	<li><code>:head</code><br />
+   Link tags pointing to theme stylesheets (uses options[:themes_css_url] )</li>
+</ul>
+<ul>
+	<li><code>:theme_style</code><br />
+   style for themes wrapped in style tags (pulls style sheets from options[:themes_css_dir])</li>
+</ul>
+<ul>
+	<li><code>:themes_used</code><br />
+   An array containing the names of the themes used. You could use :head or :theme_style for<br />
+   development and in production use this array to point to an external source like S3.<br />
+   This can also be used to check that only the theme(s) you like made it into your layout.</li>
+</ul>
+<p>Continuing the example above we can generate a complete page with&#8230;</p>
+<pre class="dawn doctored" lang="ruby"><span class="info_bar">language: 'ruby'</span>
+doctemp <span class="Keyword">=</span> &lt;&lt;-DOC_END
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
+&lt;html xml:lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;&lt;title&gt;Doctored&lt;/title&gt;
+<span class="StringEmbeddedSource"><span class="StringEmbeddedSource">#{</span>page<span class="StringEmbeddedSource">[</span><span class="StringConstant"><span class="StringConstant">:</span>theme_style</span><span class="StringEmbeddedSource">]</span><span class="StringEmbeddedSource">}</span></span>
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;main_content&quot;&gt;
+  <span class="StringEmbeddedSource"><span class="StringEmbeddedSource">#{</span>page<span class="StringEmbeddedSource">[</span><span class="StringConstant"><span class="StringConstant">:</span>body</span><span class="StringEmbeddedSource">]</span><span class="PunctuationSeparator">;</span><span class="StringEmbeddedSource">}</span></span>
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+DOC_END
+
+print doctemp
+</pre><h3>Some Workflow Examples</h3>
 <h4><span class="caps">GIT</span> based</h4>
 <p><strong>gh-pages Documents</strong><br />
 I use github which has a great feature called <a href="http://pages.github.com/">gh-pages</a>.  In a nutshell it works like this&#8230;</p>
@@ -111,15 +177,15 @@ I haven&#8217;t done this per se, but a workflow similar to the gh-pages example
 <h4>DB based</h4>
 <h3>Rails Plugin</h3>
 <p>I am using DoctorUp as a rails plugin (which will be public soon).  Here are the basics of how it works:</p>
-<p>As I may have said before ultraviolet isn&#8217;t very snappy; a large document may take 10+ seconds to parse. I don&#8217;t want to have this run very often, so I make sure it only happens once. I keep the textile version of an article in :source and a before_save callback in the article model generates the markup and saves it in :body. It also saves an array to :themes_used which can be used by a helper in the layout to include just the style sheets for the themes used.</p>
-<p>That may have sounded complex but it is really pretty simple and it didn&#8217;t take long to implement.  I want to implement better clues for caching before it releases.</p>
+<p>As I may have said before ultraviolet isn&#8217;t very snappy; a very large document may take 10+ seconds to parse. I don&#8217;t want to have this run very often, so I make sure it only happens once. I keep the textile version of an article in :source and a before_save callback in the model generates the markup and saves it in :body. It also saves an array to :themes_used which can be used by a helper in the layout to include just the style sheets for the themes used.</p>
+<p>That may have sounded complex but it is really pretty simple and it didn&#8217;t take long to implement.  I want to add better clues for caching, and more thorough tests before it releases.  (if you are a cache master, and want to help let me know!)</p>
   </div>
 </body>
 </html>
 </div></div>
     
     <div id="footer">
-  Generated on Mon May  3 15:21:38 2010 by 
+  Generated on Wed May  5 15:25:56 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.4 (ruby-1.8.7).
 </div>

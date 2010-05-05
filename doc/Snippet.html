@@ -306,8 +306,8 @@ Is language available?.
 
   
     <span class="summary_desc"><div class='inline'><p>
-A set containing all themes used by Snippets, since reset_themes_used was
-last called.
+A set containing all themes used by all Snippets, since reset_themes_used
+was last called.
 </p>
 </div></span>
   
@@ -664,12 +664,12 @@ Is language available?
       <pre class="lines">
 
 
-65
 66
-67</pre>
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 66</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='language_available? fid id'>language_available?</span><span class='lparen token'>(</span><span class='lang_name identifier id'>lang_name</span><span class='rparen token'>)</span>
   <span class='syntax_languages identifier id'>syntax_languages</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='lang_name identifier id'>lang_name</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rparen token'>)</span>
@@ -704,12 +704,12 @@ Reset (empty) the Set that contains themes used.
       <pre class="lines">
 
 
-70
 71
-72</pre>
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 71</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='reset_themes_used identifier id'>reset_themes_used</span>
   <span class='@@themes_used ivar id'>@@themes_used</span> <span class='assign token'>=</span> <span class='Set constant id'>Set</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
@@ -924,8 +924,8 @@ Is language available?
 </p><div class="docstring">
   <div class="discussion">
     <p>
-A set containing all themes used by Snippets, since reset_themes_used was
-last called
+A set containing all themes used by all Snippets, since reset_themes_used
+was last called.
 </p>
 
 
@@ -958,13 +958,13 @@ names of themes
       <pre class="lines">
 
 
-77
 78
 79
-80</pre>
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 78</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='themes_used identifier id'>themes_used</span>
   <span class='@@themes_used ivar id'>@@themes_used</span> <span class='assign token'>=</span> <span class='Set constant id'>Set</span><span class='dot token'>.</span><span class='new identifier id'>new</span> <span class='unless unless_mod kw'>unless</span> <span class='defined? defined kw'>defined?</span><span class='lparen token'>(</span><span class='@@themes_used ivar id'>@@themes_used</span><span class='rparen token'>)</span>
@@ -1049,7 +1049,6 @@ Output html for an info_bar or empty string if options[:info_bar] is false
       <pre class="lines">
 
 
-125
 126
 127
 128
@@ -1057,10 +1056,11 @@ Output html for an info_bar or empty string if options[:info_bar] is false
 130
 131
 132
-133</pre>
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 126</span>
 
 <span class='def def kw'>def</span> <span class='build_info_bar identifier id'>build_info_bar</span><span class='lparen token'>(</span><span class='att_hash identifier id'>att_hash</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
     <span class='str identifier id'>str</span> <span class='assign token'>=</span> <span class='att_hash identifier id'>att_hash</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='k identifier id'>k</span><span class='comma token'>,</span><span class='v identifier id'>v</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{k.to_s}: '#{v.to_s}'&quot;</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>' '</span><span class='rparen token'>)</span>
@@ -1139,16 +1139,16 @@ Output html for an info_bar or empty string if options[:info_bar] is false
       <pre class="lines">
 
 
-183
 184
 185
 186
 187
 188
-189</pre>
+189
+190</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 183</span>
+      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 184</span>
 
 <span class='def def kw'>def</span> <span class='filter_ultraviolet_language_aliaes identifier id'>filter_ultraviolet_language_aliaes</span><span class='lparen token'>(</span><span class='elem identifier id'>elem</span><span class='rparen token'>)</span>
   <span class='raise identifier id'>raise</span> <span class='ArgumentError constant id'>ArgumentError</span> <span class='dstring node'>&quot;expected a Hpricot::Elem but got #{elem.class}&quot;</span> <span class='unless unless_mod kw'>unless</span> <span class='elem identifier id'>elem</span><span class='dot token'>.</span><span class='class identifier id'>class</span> <span class='eq op'>==</span> <span class='Hpricot constant id'>Hpricot</span><span class='colon2 op'>::</span><span class='Elem constant id'>Elem</span>
@@ -1212,15 +1212,15 @@ Output html for an info_bar or empty string if options[:info_bar] is false
       <pre class="lines">
 
 
-174
 175
 176
 177
 178
-179</pre>
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 175</span>
 
 <span class='def def kw'>def</span> <span class='process_inline_theme identifier id'>process_inline_theme</span><span class='lparen token'>(</span><span class='elem identifier id'>elem</span><span class='rparen token'>)</span>
   <span class='raise identifier id'>raise</span> <span class='ArgumentError constant id'>ArgumentError</span> <span class='dstring node'>&quot;expected a Hpricot::Elem but got #{elem.class}&quot;</span> <span class='unless unless_mod kw'>unless</span> <span class='elem identifier id'>elem</span><span class='dot token'>.</span><span class='class identifier id'>class</span> <span class='eq op'>==</span> <span class='Hpricot constant id'>Hpricot</span><span class='colon2 op'>::</span><span class='Elem constant id'>Elem</span>
@@ -1270,16 +1270,16 @@ Output html for an info_bar or empty string if options[:info_bar] is false
       <pre class="lines">
 
 
-165
 166
 167
 168
 169
 170
-171</pre>
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 166</span>
 
 <span class='def def kw'>def</span> <span class='process_theme_for_lang identifier id'>process_theme_for_lang</span><span class='lparen token'>(</span><span class='lang identifier id'>lang</span><span class='rparen token'>)</span>
   <span class='if if kw'>if</span><span class='lparen token'>(</span><span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:theme_for_lang</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='string val'>'has_key?'</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='then then kw'>then</span>
@@ -1319,7 +1319,6 @@ store a html version of <em>self</em> marked up for syntax highlighting in
       <pre class="lines">
 
 
-91
 92
 93
 94
@@ -1345,10 +1344,11 @@ store a html version of <em>self</em> marked up for syntax highlighting in
 114
 115
 116
-117</pre>
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 92</span>
 
 <span class='def def kw'>def</span> <span class='syntax_up identifier id'>syntax_up</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
   <span class='doc identifier id'>doc</span> <span class='assign token'>=</span> <span class='Hpricot constant id'>Hpricot</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\t/</span><span class='comma token'>,</span><span class='string val'>&quot; &quot;</span> <span class='mult op'>*</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:tab_stop</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span> <span class='rparen token'>)</span>
@@ -1412,15 +1412,15 @@ hasn&#8217;t been called then it calls it with default values
       <pre class="lines">
 
 
-154
 155
 156
 157
 158
-159</pre>
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 155</span>
 
 <span class='def def kw'>def</span> <span class='to_html identifier id'>to_html</span>
   <span class='comment val'>#TODO write checkers based on SHA-1 of self @ SHA-1 of</span>
@@ -1509,7 +1509,6 @@ Options for ultraviolet
       <pre class="lines">
 
 
-140
 141
 142
 143
@@ -1518,10 +1517,11 @@ Options for ultraviolet
 146
 147
 148
-149</pre>
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/snippet.rb', line 141</span>
 
 <span class='def def kw'>def</span> <span class='ultravioletize identifier id'>ultravioletize</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='comma token'>,</span><span class='lang identifier id'>lang</span><span class='comma token'>,</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='options identifier id'>options</span><span class='dot token'>.</span><span class='merge identifier id'>merge</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -1544,7 +1544,7 @@ Options for ultraviolet
 </div>
     
     <div id="footer">
-  Generated on Mon May  3 15:21:40 2010 by 
+  Generated on Wed May  5 15:25:57 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.4 (ruby-1.8.7).
 </div>
