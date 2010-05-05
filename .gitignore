@@ -17,9 +17,10 @@ tmtags
 coverage
 rdoc
 pkg
+.yardoc
+.rake_tasks~
 
 ## PROJECT::SPECIFIC
 *.scratch
 irb.session
 develop_logs/
-.yardoc
