@@ -66,7 +66,7 @@ require 'yard'
 YARD::Rake::YardocTask.new do |yard|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
-  system("~/bin/doctorup README.textile > README.html")
+  system("~/bin/doctorup_cs README.textile > README.html")
 
   yard.options += ['--files','LICENSE']
   yard.options += ['--title',"DoctorUp #{version}"]
