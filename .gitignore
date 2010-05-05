@@ -1,0 +1,26 @@
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.swp
+
+## PROJECT::GENERAL
+coverage
+rdoc
+pkg
+.yardoc
+.rake_tasks~
+
+## PROJECT::SPECIFIC
+*.scratch
+irb.session
+develop_logs/
