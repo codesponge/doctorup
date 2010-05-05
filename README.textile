@@ -6,6 +6,11 @@ Read the "Documentation":http://codesponge.github.com/doctorup/doc/
 
 Bugs? Suggestions? check out "issues":http://github.com/codesponge/doctorup/issues
 
+
+h3. Note:
+
+If you are reading this on the source tab of the github project page, you should read the "online version":http://codesponge.github.com/doctorup. 
+
 h2. Introduction
 
 DoctorUp parses your document and adds syntax highlighting to your code examples using ultraviolet. So it looks snappy like this...
