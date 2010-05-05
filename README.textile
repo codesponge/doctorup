@@ -1,8 +1,10 @@
 h1. DoctorUp (BETA)
 
-Source (clone or fork) on "GitHub":http://github.com/codesponge/doctorup
+Source (Fork) on "GitHub":http://github.com/codesponge/doctorup
 
 Read the "Documentation":http://codesponge.github.com/doctorup/doc/
+
+Bugs? Suggestions? check out "issues":http://github.com/codesponge/doctorup/issues
 
 h2. Introduction
 
@@ -16,7 +18,7 @@ DoctorUp parses your document and adds syntax highlighting to your code examples
 	end
 </code>
 
-Ultraviolet uses TextMate languages and themes so there is a huge list of languages it can parse and quite a few built-in themes.  You can use TextMate to create or edit languages and themes and pull them into ultraviolet.
+Ultraviolet uses TextMate languages and themes so there is a huge list of languages it can parse and has quite a few built-in themes.  You can use TextMate to create or edit languages and themes and pull them into ultraviolet.
 
 The variety of languages supported and the ability to easily create custom themes are what led to my choosing ultraviolet for syntax highlighting despite the install issues. (More on the install issues in a bit)
 
@@ -32,11 +34,12 @@ h3. Development
 
 DoctorUp is currently in *active* development.
 
-Planned Features
+Planned/Possible Features
 
-* markup other than textile.
-* rails plugin -- in development.
-
+* Markup other than textile.
+* Rails plugin -- in development/testing.
+* Possibility of using custom tags as markers for what gets syntax highlighting.  (other than &lt;code lang='lang'&gt; tags)
+* Output other than (x)html.
 
 
 h2. Install
@@ -57,16 +60,20 @@ h3. Step 2: Build and Install DoctorUp Gem from Source
 
 (You may need to use _sudo_ for the install command depending on your system.)
 
+If you think you might contribute to DoctorUp then please create a fork and use that to clone from.
+
 h3. Heroku
 
-Getting ultraviolet working on "heroku":www.heroku.com is a snap.  The required dependencies are in the default gemset.   Which means the DoctorUp plugin is also a snap!
+Getting ultraviolet working on "heroku":www.heroku.com is a snap.  The required dependencies are in the default gemset.   Which means the DoctorUp plugin[1] is also a snap!
 
 All you have to do to get ultraviolet installed for your heroku app is to add a line @ultraviolet@ to the @.gems@ file at the root of your project.  (You may have to create the file.)
+More info about the gem manifest on the "Heroku Docs":http://docs.heroku.com/gems
 
-
-	NOTE: Rails Plugin isn't quite ready for public consumption.  Link will be here when it gets released [[LINK]].
+fn1. NOTE: Rails Plugin isn't quite ready for public consumption.  Link will be here when it gets released [[LINK]] -- coming soon.
 
 h2. Use
+
+
 
 <code lang='ruby'>
 	require 'doctorup'
@@ -78,7 +85,7 @@ h2. Use
 	
 </code>
 
-The process method returns a hash containing the following
+The @process@ method returns a hash containing the following
 * :raw
    The input unchanged
 
@@ -102,7 +109,7 @@ The process method returns a hash containing the following
 
 Continuing the example above we can generate a complete page with...
 
-<code lang='ruby' theme='cobaltcs'>
+<code lang='ruby'>
 doctemp = <<-DOC_END
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -159,5 +166,6 @@ I am using DoctorUp as a rails plugin (which will be public soon).  Here are the
 
 As I may have said before ultraviolet isn't very snappy; a very large document may take 10+ seconds to parse. I don't want to have this run very often, so I make sure it only happens once. I keep the textile version of an article in :source and a before_save callback in the model generates the markup and saves it in :body. It also saves an array to :themes_used which can be used by a helper in the layout to include just the style sheets for the themes used.
 
-That may have sounded complex but it is really pretty simple and it didn't take long to implement.  I want to implement better clues for caching, and more thorough tests before it releases.  (if you are a cache master, and want to help let me know!)
+
+That may have sounded complex but it is really pretty simple and it didn't take long to implement.  I want to add better clues for caching, and more thorough tests before it releases.  (if you are a cache master, and want to help let me know!)
 

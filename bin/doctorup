@@ -100,7 +100,7 @@ doctemp = <<-HTML
 <head>
 	<title>Doctored</title>
 #{page[:head]}
-<!-- extra style sheets? -->
+<style type='text/css' media='screen'>#{DoctorUp.info_bar_style}</style>
 </head>
 <body>
   #{doctor.options[:theme]}
