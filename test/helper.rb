@@ -17,7 +17,6 @@ require 'doctorup'
 require 'snippet'
 
 class Test::Unit::TestCase
-  DATA_DIR = File.join(File.dirname(__FILE__), 'data')
 
   def assert_hashish(object)
     [:key,:keys,:has_key?].each do |method|
