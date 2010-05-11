@@ -141,13 +141,15 @@ class DoctorUp
   #create a DoctorUp instance with Options
   def initialize(opts={})
     config_file_path = File.expand_path(".doctorup_options.yml", ENV['HOME'])
+    @options = {}
     if(File.readable?(config_file_path)) then
-      @options = self.class.options
       config_opts = (YAML.load(File.open(config_file_path).read))
+      @options.update(self.options)
       @options.update(config_opts)
       @options.update(opts)
     else
-      @options = self.class.options.merge(opts)
+      @options.update(self.options)
+      @options.update(opts)
     end
   end
 
@@ -187,10 +189,13 @@ class DoctorUp
 
 
   def process(input,opts = {})
-    @options.update opts
+   #@options.update(opts)
+   mopts = {}
+   mopts.update(@options)
+   mopts.update(opts)
    page = {}
    page[:raw]
-   page[:syntaxed] = parse_code_blocks(input,@options)
+   page[:syntaxed] = parse_code_blocks(input,mopts)
    page[:body] = markup(page[:syntaxed])
    page[:theme_style] = page_style(Snippet.themes_used)
    page[:head] = linked_style_array(Snippet.themes_used).join("\n")

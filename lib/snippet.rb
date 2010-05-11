@@ -38,7 +38,9 @@ class Snippet < String
   #@param [String] str
   #@param [Hash] opts Options
   def initialize(input = '',opts = {})
-    @options = self.class.options.merge opts
+    @options = {}
+    @options.update(self.class.options)
+    @options.update(opts)
     super(input)
   end
 
@@ -139,13 +141,15 @@ class Snippet < String
   #@param [String] lang the syntax language.
   #@param [Hash] opts Options for ultraviolet
   def ultravioletize(input,lang,opts={})
-    opts = options.merge(opts)
+    mopts = {}
+    mopts.update options
+    mopts.update opts
     silence_warnings do
       syntaxed = Uv.parse(input,"xhtml",
           lang.to_s,
-          opts[:line_numbers],
-          opts[:theme].to_s,
-          opts[:headers] )
+          mopts[:line_numbers],
+          mopts[:theme].to_s,
+          mopts[:headers] )
     end
   end
 
