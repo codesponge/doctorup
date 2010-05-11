@@ -265,7 +265,7 @@ Default Options.  You can override these in a config file
   
 </div>
         </dt>
-        <dd><pre class="code"><span class='lbrace token'>{</span> 
+        <dd><pre class="code"><span class='CodeSponge constant id'>CodeSponge</span><span class='colon2 op'>::</span><span class='OptionHash constant id'>OptionHash</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> 
     <span class='symbol val'>:theme</span>                        <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:dawn</span><span class='comma token'>,</span>  <span class='comment val'>#the theme (or render_style) to use</span>
     <span class='symbol val'>:ultraviolet_language_aliases</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span> <span class='string val'>'shell'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'shell-unix-generic'</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
     <span class='symbol val'>:theme_for_lang</span>               <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>'lang_name'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:theme_name</span> <span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='comment val'># =&gt; must use the actual lang name not an alias</span>
@@ -274,7 +274,7 @@ Default Options.  You can override these in a config file
     <span class='symbol val'>:themes_css_url</span>               <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'/stylesheets/doctorup'</span><span class='comma token'>,</span>  <span class='comment val'>#great for rails (if you put theme styleshets there!)</span>
     <span class='symbol val'>:themes_css_dir</span>               <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span> <span class='Uv constant id'>Uv</span><span class='dot token'>.</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='string val'>&quot;render&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;xhtml&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;files&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;css&quot;</span> <span class='rparen token'>)</span><span class='rparen token'>)</span><span class='comma token'>,</span>
     <span class='symbol val'>:info_bar</span>                     <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='true true kw'>true</span>
-<span class='rbrace token'>}</span>
+<span class='rbrace token'>}</span><span class='rparen token'>)</span>
 </pre></dd>
       
     </dl>
@@ -462,27 +462,6 @@ in the output.
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#rx-instance_method" title="#rx (instance method)">- (Object) <strong>rx</strong>(input, opts = {}) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><h3>this method is here for convenience but may be moved or removed in the future.</h3>
-</div></span>
-  
-</li>
-
-      
         <li class="protected ">
   <span class="summary_signature">
     
@@ -574,26 +553,16 @@ create a DoctorUp instance with Options
 144
 145
 146
-147
-148
-149
-150
-151
-152</pre>
+147</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 142</span>
 
 <span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='config_file_path identifier id'>config_file_path</span> <span class='assign token'>=</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='expand_path identifier id'>expand_path</span><span class='lparen token'>(</span><span class='string val'>&quot;.doctorup_options.yml&quot;</span><span class='comma token'>,</span> <span class='ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>'HOME'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='if if kw'>if</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='readable? fid id'>readable?</span><span class='lparen token'>(</span><span class='config_file_path identifier id'>config_file_path</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='then then kw'>then</span>
-    <span class='@options ivar id'>@options</span> <span class='assign token'>=</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='dot token'>.</span><span class='options identifier id'>options</span>
-    <span class='config_opts identifier id'>config_opts</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='YAML constant id'>YAML</span><span class='dot token'>.</span><span class='load identifier id'>load</span><span class='lparen token'>(</span><span class='File constant id'>File</span><span class='dot token'>.</span><span class='open identifier id'>open</span><span class='lparen token'>(</span><span class='config_file_path identifier id'>config_file_path</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='read identifier id'>read</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='@options ivar id'>@options</span><span class='dot token'>.</span><span class='update identifier id'>update</span><span class='lparen token'>(</span><span class='config_opts identifier id'>config_opts</span><span class='rparen token'>)</span>
-    <span class='@options ivar id'>@options</span><span class='dot token'>.</span><span class='update identifier id'>update</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
-  <span class='else else kw'>else</span>
-    <span class='@options ivar id'>@options</span> <span class='assign token'>=</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='dot token'>.</span><span class='options identifier id'>options</span><span class='dot token'>.</span><span class='merge identifier id'>merge</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
-  <span class='end end kw'>end</span>
+  <span class='@options ivar id'>@options</span> <span class='assign token'>=</span> <span class='CodeSponge constant id'>CodeSponge</span><span class='colon2 op'>::</span><span class='OptionHash constant id'>OptionHash</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@@options ivar id'>@@options</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='update_from_yaml_file identifier id'>update_from_yaml_file</span><span class='lparen token'>(</span><span class='config_file_path identifier id'>config_file_path</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='update identifier id'>update</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='comment val'>#@options.update(opts)</span>
+  <span class='self self kw'>self</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -652,12 +621,12 @@ Some Default CSS for the info bar
       <pre class="lines">
 
 
-156
-157
-158</pre>
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 154</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='info_bar_style identifier id'>info_bar_style</span>
   <span class='string val'>&quot;pre.doctored{\nborder:3px solid #788E7D;\npadding-left:10px;\npadding-top:0px;\npadding-bottom:8px;\noverflow:auto;\n}\npre.doctored span.info_bar{\ndisplay:inline-block;\n/*    color:#FF8E0A;*/\ncolor:#172D33;\nposition:relative;\ntop:-1px;\nbackground-color:#788E7D;\nfont-size:10px;\nborder:0px solid #788E7D;\nborder-width:0px 0px 0px 0px;\nmargin-top:-1px;\nmargin-left:-10px;\nmargin-bottom:2px;\n\npadding:2px 1em;\n/*  bottom right*/\n-moz-border-radius-bottomright:1em;\n-webkit-border-bottom-right-radius:1em;\n}\n&quot;</span>
@@ -740,17 +709,17 @@ of link tags for theme style sheets
       <pre class="lines">
 
 
-225
-226
-227
-228
-229
-230
-231
-232</pre>
+215
+216
+217
+218
+219
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 215</span>
 
 <span class='def def kw'>def</span> <span class='linked_style_array identifier id'>linked_style_array</span><span class='lparen token'>(</span><span class='theme_names_array identifier id'>theme_names_array</span><span class='rparen token'>)</span>
   <span class='links identifier id'>links</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -811,12 +780,12 @@ The text to get markup.
       <pre class="lines">
 
 
-216
-217
-218</pre>
+206
+207
+208</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 216</span>
+      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 206</span>
 
 <span class='def def kw'>def</span> <span class='markup identifier id'>markup</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='comma token'>,</span><span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='textilize identifier id'>textilize</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='rparen token'>)</span>
@@ -853,17 +822,17 @@ includes info_bar_style if options[:info_bar] is set.
       <pre class="lines">
 
 
-238
-239
-240
-241
-242
-243
-244
-245</pre>
+228
+229
+230
+231
+232
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 228</span>
 
 <span class='def def kw'>def</span> <span class='page_style identifier id'>page_style</span><span class='lparen token'>(</span><span class='theme_names_array identifier id'>theme_names_array</span><span class='rparen token'>)</span>
   <span class='styles identifier id'>styles</span> <span class='assign token'>=</span> <span class='string val'>''</span>
@@ -955,17 +924,17 @@ doc with code blocks replaced with syntax highlighted version
       <pre class="lines">
 
 
-265
-266
-267
-268
-269
-270
-271
-272</pre>
+255
+256
+257
+258
+259
+260
+261
+262</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 265</span>
+      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 255</span>
 
 <span class='def def kw'>def</span> <span class='parse_code_blocks identifier id'>parse_code_blocks</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='comma token'>,</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='Snippet constant id'>Snippet</span><span class='dot token'>.</span><span class='reset_themes_used identifier id'>reset_themes_used</span>
@@ -994,6 +963,8 @@ doc with code blocks replaced with syntax highlighted version
       <pre class="lines">
 
 
+188
+189
 190
 191
 192
@@ -1003,67 +974,22 @@ doc with code blocks replaced with syntax highlighted version
 196
 197
 198
-199
-200</pre>
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 190</span>
+      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 188</span>
 
 <span class='def def kw'>def</span> <span class='process identifier id'>process</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='comma token'>,</span><span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='@options ivar id'>@options</span><span class='dot token'>.</span><span class='update identifier id'>update</span> <span class='opts identifier id'>opts</span>
+ <span class='comment val'>#opts = options_percolate(opts)</span>
+ <span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='@options ivar id'>@options</span><span class='dot token'>.</span><span class='before identifier id'>before</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
  <span class='page identifier id'>page</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
- <span class='page identifier id'>page</span><span class='lbrack token'>[</span><span class='symbol val'>:raw</span><span class='rbrack token'>]</span>
- <span class='page identifier id'>page</span><span class='lbrack token'>[</span><span class='symbol val'>:syntaxed</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='parse_code_blocks identifier id'>parse_code_blocks</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='comma token'>,</span><span class='@options ivar id'>@options</span><span class='rparen token'>)</span>
+ <span class='page identifier id'>page</span><span class='lbrack token'>[</span><span class='symbol val'>:raw</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='input identifier id'>input</span>
+ <span class='page identifier id'>page</span><span class='lbrack token'>[</span><span class='symbol val'>:syntaxed</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='parse_code_blocks identifier id'>parse_code_blocks</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='comma token'>,</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
  <span class='page identifier id'>page</span><span class='lbrack token'>[</span><span class='symbol val'>:body</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='markup identifier id'>markup</span><span class='lparen token'>(</span><span class='page identifier id'>page</span><span class='lbrack token'>[</span><span class='symbol val'>:syntaxed</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
  <span class='page identifier id'>page</span><span class='lbrack token'>[</span><span class='symbol val'>:theme_style</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='page_style identifier id'>page_style</span><span class='lparen token'>(</span><span class='Snippet constant id'>Snippet</span><span class='dot token'>.</span><span class='themes_used identifier id'>themes_used</span><span class='rparen token'>)</span>
  <span class='page identifier id'>page</span><span class='lbrack token'>[</span><span class='symbol val'>:head</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='linked_style_array identifier id'>linked_style_array</span><span class='lparen token'>(</span><span class='Snippet constant id'>Snippet</span><span class='dot token'>.</span><span class='themes_used identifier id'>themes_used</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span>
  <span class='page identifier id'>page</span><span class='lbrack token'>[</span><span class='symbol val'>:themes_used</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='Snippet constant id'>Snippet</span><span class='dot token'>.</span><span class='themes_used identifier id'>themes_used</span>
  <span class='page identifier id'>page</span>
-<span class='end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="rx-instance_method">
-  
-    - (<tt>Object</tt>) <strong>rx</strong>(input, opts = {}) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <h3>this method is here for convenience but may be moved or removed in the future.</h3>
-<p>
-output with style for themes included in the output wrapped in style tags
-</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-206
-207
-208
-209
-210</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 206</span>
-
-<span class='def def kw'>def</span> <span class='rx identifier id'>rx</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='comma token'>,</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='syntaxed identifier id'>syntaxed</span> <span class='assign token'>=</span> <span class='parse_code_blocks identifier id'>parse_code_blocks</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='comma token'>,</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
-  <span class='textiled identifier id'>textiled</span> <span class='assign token'>=</span> <span class='textilize identifier id'>textilize</span><span class='lparen token'>(</span><span class='syntaxed identifier id'>syntaxed</span><span class='rparen token'>)</span>
-  <span class='page_style identifier id'>page_style</span><span class='lparen token'>(</span><span class='Snippet constant id'>Snippet</span><span class='dot token'>.</span><span class='themes_used identifier id'>themes_used</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='textiled identifier id'>textiled</span>
 <span class='end end kw'>end</span>
 </pre>
     </td>
@@ -1129,12 +1055,12 @@ input wrapped in style tags.
       <pre class="lines">
 
 
-249
-250
-251</pre>
+239
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 249</span>
+      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 239</span>
 
 <span class='def def kw'>def</span> <span class='wrap_style identifier id'>wrap_style</span><span class='lparen token'>(</span><span class='input identifier id'>input</span><span class='rparen token'>)</span>
   <span class='string val'>&quot;&lt;style type='text/css'&gt;&quot;</span> <span class='plus op'>+</span> <span class='input identifier id'>input</span> <span class='plus op'>+</span> <span class='string val'>&quot;&lt;/style&gt;&quot;</span>
@@ -1222,13 +1148,13 @@ contents of @file@ wrapped in style tags.
       <pre class="lines">
 
 
-255
-256
-257
-258</pre>
+245
+246
+247
+248</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 255</span>
+      <pre class="code"><span class="info file"># File 'lib/doctorup.rb', line 245</span>
 
 <span class='def def kw'>def</span> <span class='wrap_style_from_file identifier id'>wrap_style_from_file</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
   <span class='raise identifier id'>raise</span> <span class='ArgumentError constant id'>ArgumentError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;The File #{file} doesn't exist or is unreadable&quot;</span> <span class='unless unless_mod kw'>unless</span> <span class='File constant id'>File</span><span class='dot token'>.</span><span class='readable? fid id'>readable?</span><span class='lparen token'>(</span><span class='file identifier id'>file</span><span class='rparen token'>)</span>
@@ -1245,7 +1171,7 @@ contents of @file@ wrapped in style tags.
 </div>
     
     <div id="footer">
-  Generated on Wed May  5 15:25:56 2010 by 
+  Generated on Tue May 11 17:14:37 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.4 (ruby-1.8.7).
 </div>
