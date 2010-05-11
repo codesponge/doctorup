@@ -16,11 +16,11 @@ class	 Test_snippet_case < Test::Unit::TestCase
 	  setup do
   		@snippet = Snippet.new
   	end
-    # 
+    #
     # should "Be testing the correct file" do
     #   assert_equal(Snippet.dev_key,"aklsejowaflkejwoeifjql;kcmlvzkjczkleuproqiwejr")
     # end
-    # 
+    #
   	should "be like a string" do
   		assert_equal(@snippet, @snippet.to_s)
   	end
@@ -43,13 +43,13 @@ class	 Test_snippet_case < Test::Unit::TestCase
       should "be like a sting" do
         assert_equal(@snippet, @snippet.to_s)
       end
-      
+
       should "not change if it doesn't have a code block when to_html is called" do
         assert_equal(@snippet, @snippet.to_html)
       end
-      
+
     end # => context "Created with a string"
-    
+
     context "created with a string containing a code block" do
       setup do
         @source_str ="<code lang='ruby'>
@@ -60,12 +60,12 @@ class	 Test_snippet_case < Test::Unit::TestCase
         end"
         @snippet = Snippet.new(@source_str)
       end
-      
+
       should "output a string when to_html is called " do
         syntaxed = @snippet.to_html
         assert(syntaxed.class == String)
       end
-      
+
     end # => context "created with a string containing a <code> block"
   end # => context "A snippet"
 end # => class
