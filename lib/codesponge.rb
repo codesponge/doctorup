@@ -13,6 +13,28 @@ module Handy
 end # => module Handy
 
 
+class OptionHash < Hash
+
+  def initialize(opts)
+      super()
+      update(opts)
+      self
+  end
+
+  def update_from_yaml_file(path)
+    if(File.readable?(path)) then
+      update(YAML.load_file(path))
+    end
+  end
+  
+  def before(opts = {})
+    mopts = self
+    mopts.update(opts)
+    mopts
+  end
+end
+
+
 
 
 module Options
@@ -25,8 +47,14 @@ module Options
     def options=(opts)
       self.class_eval("@@options").update(opts)
     end
+    
+    def options_percolate(opts)
+      mopts = self.options
+    end
+  
   end
-
+  
+  
   def self.included(base)
     base.extend(ClassMethods)
   end
@@ -38,6 +66,8 @@ module Options
   def options
     @options
   end
+
+
 
 end # => module Options
 

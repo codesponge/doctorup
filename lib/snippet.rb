@@ -24,23 +24,21 @@ class Snippet < String
   include CodeSponge::Handy
 
 #Default Options: see Doctor up for an explanation of options.
-@@options = {   
+@@options = CodeSponge::OptionHash.new({
   :theme                        => :dawn,  #the theme (or render_style) to use
   :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
   :theme_for_lang               => {'lang_name' => :theme_name },
   :tab_stop                     => 2,
   :line_numbers                 => false,
   :info_bar                     => true
-}
+})
 
  include CodeSponge::Options
 
   #@param [String] str
   #@param [Hash] opts Options
   def initialize(input = '',opts = {})
-    @options = {}
-    @options.update(self.class.options)
-    @options.update(opts)
+    @options = CodeSponge::OptionHash.new(@@options).update(opts)
     super(input)
   end
 
@@ -141,15 +139,13 @@ class Snippet < String
   #@param [String] lang the syntax language.
   #@param [Hash] opts Options for ultraviolet
   def ultravioletize(input,lang,opts={})
-    mopts = {}
-    mopts.update options
-    mopts.update opts
+    opts = @options.before(opts)
     silence_warnings do
       syntaxed = Uv.parse(input,"xhtml",
           lang.to_s,
-          mopts[:line_numbers],
-          mopts[:theme].to_s,
-          mopts[:headers] )
+          opts[:line_numbers],
+          opts[:theme].to_s,
+          opts[:headers] )
     end
   end
 

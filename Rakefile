@@ -62,11 +62,13 @@ task :test => :check_dependencies
 
 task :default => :test
 
+
+begin
 require 'yard'
 YARD::Rake::YardocTask.new do |yard|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
-  system("~/bin/doctorup_cs README.textile > README.html")
+  #system("~/bin/doctorup_cs README.textile > README.html")
 
   yard.options += ['--files','LICENSE']
   yard.options += ['--title',"DoctorUp #{version}"]
@@ -79,6 +81,9 @@ YARD::Rake::YardocTask.new do |yard|
          system("cp -vR docs/images/ doc/images/")
     
             }
+end
+rescue
+  "Install yard for generating complete documentation"
 end
 
 desc "Create Documentation (using YARD)"

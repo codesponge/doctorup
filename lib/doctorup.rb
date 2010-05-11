@@ -123,7 +123,7 @@ class DoctorUp
 
 #Default Options.  You can override these in a config file
 #  ~/.doctorup_options.yml
-@@options = { 
+@@options = CodeSponge::OptionHash.new({ 
     :theme                        => :dawn,  #the theme (or render_style) to use
     :ultraviolet_language_aliases => { 'shell' => 'shell-unix-generic'},
     :theme_for_lang               => {'lang_name' => :theme_name }, # => must use the actual lang name not an alias
@@ -132,7 +132,7 @@ class DoctorUp
     :themes_css_url               => '/stylesheets/doctorup',  #great for rails (if you put theme styleshets there!)
     :themes_css_dir               => File.expand_path(File.join( Uv.path, "render", "xhtml", "files","css" )),
     :info_bar                     => true
-}
+})
 
 
   include CodeSponge::Options
@@ -141,17 +141,13 @@ class DoctorUp
   #create a DoctorUp instance with Options
   def initialize(opts={})
     config_file_path = File.expand_path(".doctorup_options.yml", ENV['HOME'])
-    @options = {}
-    if(File.readable?(config_file_path)) then
-      config_opts = (YAML.load(File.open(config_file_path).read))
-      @options.update(self.options)
-      @options.update(config_opts)
-      @options.update(opts)
-    else
-      @options.update(self.options)
-      @options.update(opts)
-    end
+    @options = CodeSponge::OptionHash.new(@@options).update_from_yaml_file(config_file_path).update(opts)
+    #@options.update(opts)
+    self
   end
+
+
+
 
   #This method is here for convenience but may be moved or removed in the future.
   #@return [String] Some Default CSS for the info bar
@@ -189,13 +185,11 @@ class DoctorUp
 
 
   def process(input,opts = {})
-   #@options.update(opts)
-   mopts = {}
-   mopts.update(@options)
-   mopts.update(opts)
+   #opts = options_percolate(opts)
+   opts = @options.before(opts)
    page = {}
-   page[:raw]
-   page[:syntaxed] = parse_code_blocks(input,mopts)
+   page[:raw] = input
+   page[:syntaxed] = parse_code_blocks(input,opts)
    page[:body] = markup(page[:syntaxed])
    page[:theme_style] = page_style(Snippet.themes_used)
    page[:head] = linked_style_array(Snippet.themes_used).join("\n")
@@ -203,15 +197,6 @@ class DoctorUp
    page
   end
 
-
-
-  #=== this method is here for convenience but may be moved or removed in the future.
-  #output with style for themes included in the output wrapped in style tags
-  def rx(input,opts={})
-    syntaxed = parse_code_blocks(input,opts)
-    textiled = textilize(syntaxed)
-    page_style(Snippet.themes_used) + textiled
-  end
 
 protected
 
