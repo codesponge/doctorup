@@ -1,0 +1,25 @@
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+This sample is for testing and contains: two paragraphs (you are reading the second.); Three sections of code each with a different language and theme.
+
+<code lang='ruby' theme='amy'>
+class Array
+	def rand
+		self[kernel.rand(self.length)]
+	end
+end
+</code>
+
+<code lang='javascript' theme='cobalt'>
+$(document).ready(function() {
+	alert("You browsed to a page! good job!")
+});
+</code>
+
+<code lang='c' theme='idle'>
+int main()
+{
+	printf("Hello Doctor.")
+	return 0;
+}
+</code>
