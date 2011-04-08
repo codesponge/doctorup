@@ -16,7 +16,7 @@ $(document).ready(function() {
 });
 </code>
 
-<code lang='c' theme='idle'>
+<code lang='java' theme='idle'>
 int main()
 {
 	printf("Hello Doctor.")

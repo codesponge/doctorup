@@ -23,7 +23,14 @@ class OptionHash < Hash
 
   def update_from_yaml_file(path)
     if(File.readable?(path)) then
-      update(YAML.load_file(path))
+      yam = YAML.load_file(path)
+      if(yam) then
+        update(yam)
+      else
+        update(:update_from_yaml_failed => :true)
+      end
+    else
+      update(:update_from_yaml_failed => :true)
     end
   end
   
